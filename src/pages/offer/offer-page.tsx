@@ -65,8 +65,8 @@ const OfferPage: React.FC<OfferPageProps> = ({ places }) => {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {place.images.map((image, index) => (
-                <div key={index} className="offer__image-wrapper">
+              {place.images.map((image) => (
+                <div key={image} className="offer__image-wrapper">
                   <img className="offer__image" src={image} alt="Photo studio" />
                 </div>
               ))}
@@ -107,8 +107,8 @@ const OfferPage: React.FC<OfferPageProps> = ({ places }) => {
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  {place.features.map((feature, index) => (
-                    <li key={index} className="offer__inside-item">
+                  {place.features.map((feature) => (
+                    <li key={feature} className="offer__inside-item">
                       {feature}
                     </li>
                   ))}
@@ -124,8 +124,8 @@ const OfferPage: React.FC<OfferPageProps> = ({ places }) => {
                   {place.host.isPro && <span className="offer__user-status">Pro</span>}
                 </div>
                 <div className="offer__description">
-                  {place.description.split('\n').map((text, index) => (
-                    <p key={index} className="offer__text">{text}</p>
+                  {place.description.split('\n').map((text) => (
+                    <p key={text} className="offer__text">{text}</p>
                   ))}
                 </div>
               </div>
