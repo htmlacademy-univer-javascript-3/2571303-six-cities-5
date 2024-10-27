@@ -1,57 +1,11 @@
 import PlaceCard from '../../components/place-card/place-card';
+import {Place} from '../../types/place';
 
-type Place = {
-  imageSrc: string;
-  name: string;
-  placeType: string;
-  price: number;
-  rating: number;
-  premium?: boolean;
-};
+type MainPageProps = {
+  places : Place[];
+}
 
-
-const places: Place[] = [
-  {
-    imageSrc: 'img/apartment-01.jpg',
-    name: 'Beautiful & luxurious apartment at great location',
-    placeType: 'Apartment',
-    price: 120,
-    rating: 100,
-    premium: true
-  },
-  {
-    imageSrc: 'img/room.jpg',
-    name: 'Wood and stone place',
-    placeType: 'Room',
-    price: 80,
-    rating: 80
-  },
-  {
-    imageSrc: 'img/apartment-02.jpg',
-    name: 'Canal View Prinsengracht',
-    placeType: 'Apartment',
-    price: 132,
-    rating: 80
-  },
-  {
-    imageSrc: 'img/apartment-03.jpg',
-    name: 'Nice, cozy, warm big bed apartment',
-    placeType: 'Apartment',
-    price: 180,
-    rating: 100,
-    premium: true
-  },
-  {
-    imageSrc: 'img/room.jpg',
-    name: 'Wood and stone place',
-    placeType: 'Room',
-    price: 80,
-    rating: 80
-  },
-];
-
-
-function MainPage () {
+function MainPage ({places}: MainPageProps) {
 
   return (
     <div className="cities__places-list places__list tabs__content">
