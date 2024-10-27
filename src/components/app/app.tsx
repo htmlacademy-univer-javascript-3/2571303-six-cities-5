@@ -7,6 +7,7 @@ import NotFoundPage from '../../pages/not-found/not-found';
 import LoginPage from '../../pages/login/login-page';
 import FavoritesPage from '../../pages/favorites/favorites-page';
 import OfferPage from '../../pages/offer/offer-page';
+import {offersData} from '../../store/place-data/place-data';
 
 type AppProps = {
   places : Place[];
@@ -30,7 +31,7 @@ function App({places}: AppProps) {
         />
         <Route
           path={AppRoute.Offer}
-          element={<OfferPage/>}
+          element={<OfferPage places={offersData}/>}
         />
         <Route
           path="*"
