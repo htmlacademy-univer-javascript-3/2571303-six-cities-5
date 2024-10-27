@@ -8,6 +8,7 @@ import LoginPage from '../../pages/login/login-page';
 import FavoritesPage from '../../pages/favorites/favorites-page';
 import OfferPage from '../../pages/offer/offer-page';
 import {offersData} from '../../store/place-data/place-data';
+import PrivateRoute from '../private-route/private-route.tsx';
 
 type AppProps = {
   places : Place[];
@@ -18,8 +19,7 @@ function App({places}: AppProps) {
     <BrowserRouter>
       <Routes>
         <Route
-          path={AppRoute.Root}
-          element={<MainPage places={places}/>}
+          index element={<MainPage places={places}/>}
         />
         <Route
           path={AppRoute.Login}
@@ -27,7 +27,11 @@ function App({places}: AppProps) {
         />
         <Route
           path={AppRoute.Favorites}
-          element={<FavoritesPage/>}
+          element={
+            <PrivateRoute>
+              <FavoritesPage />
+            </PrivateRoute>
+          }
         />
         <Route
           path={AppRoute.Offer}
