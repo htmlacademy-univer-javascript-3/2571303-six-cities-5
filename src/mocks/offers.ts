@@ -8,7 +8,7 @@ export const offersData : Offer[] = [
     price: 180,
     rating: 5.0,
     isPremium: true,
-    imageSrc: 'img/apartment-small-03.jpg',
+    imageSrc: 'img/apartment-01.jpg',
     description: 'A nice and cozy apartment in Amsterdam.',
     host: {
       name: 'Oliver Conner',
@@ -26,7 +26,7 @@ export const offersData : Offer[] = [
     price: 80,
     rating: 4.0,
     isPremium: false,
-    imageSrc: 'img/room-small.jpg',
+    imageSrc: 'img/room.jpg',
     description: 'A beautiful wood and stone room.',
     host: {
       name: 'Anna Smith',
@@ -44,7 +44,7 @@ export const offersData : Offer[] = [
     price: 180,
     rating: 5.0,
     isPremium: false,
-    imageSrc: 'img/apartment-small-04.jpg',
+    imageSrc: 'img/apartment-02.jpg',
     description: 'A charming white castle in Cologne.',
     host: {
       name: 'John Doe',
@@ -60,9 +60,9 @@ export const offersData : Offer[] = [
     name: 'White castle',
     type: 'Apartment',
     price: 180,
-    rating: 5.0,
-    isPremium: false,
-    imageSrc: 'img/apartment-02.jpg',
+    rating: 3,
+    isPremium: true,
+    imageSrc: 'img/apartment-03.jpg',
     description: 'A charming white castle in Cologne.',
     host: {
       name: 'John Doe',
