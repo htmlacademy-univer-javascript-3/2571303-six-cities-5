@@ -1,33 +1,18 @@
 import React from 'react';
 import {Navigate, useParams} from 'react-router-dom';
 import {AppRoute} from '../../consts.ts';
+import {Offer} from '../../types/offer.ts';
 
 type OfferPageProps = {
-  places: {
-    id: number;
-    name: string;
-    type: string;
-    price: number;
-    rating: number;
-    isPremium: boolean;
-    images: string[];
-    description: string;
-    host: {
-      name: string;
-      avatar: string;
-      isPro: boolean;
-    };
-    features: string[];
-    maxAdults: number;
-  }[];
+  offers: Offer[];
 };
 
-const OfferPage: React.FC<OfferPageProps> = ({ places }) => {
+const OfferPage: React.FC<OfferPageProps> = ({ offers }) => {
   const { id } = useParams<{ id: string }>();
   const placeId = Number(id);
-  const place = places.find((p) => p.id === placeId);
+  const offer = offers.find((p) => p.id === placeId);
 
-  if (!place) {
+  if (!offer) {
     return <Navigate to={AppRoute.NotFround} />;
   }
 
@@ -65,7 +50,7 @@ const OfferPage: React.FC<OfferPageProps> = ({ places }) => {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {place.images.map((image) => (
+              {offer.images.map((image) => (
                 <div key={image} className="offer__image-wrapper">
                   <img className="offer__image" src={image} alt="Photo studio" />
                 </div>
@@ -74,13 +59,13 @@ const OfferPage: React.FC<OfferPageProps> = ({ places }) => {
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {place.isPremium && (
+              {offer.isPremium && (
                 <div className="offer__mark">
                   <span>Premium</span>
                 </div>
               )}
               <div className="offer__name-wrapper">
-                <h1 className="offer__name">{place.name}</h1>
+                <h1 className="offer__name">{offer.name}</h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
@@ -90,24 +75,24 @@ const OfferPage: React.FC<OfferPageProps> = ({ places }) => {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: `${(place.rating / 5) * 100}%` }}></span>
+                  <span style={{ width: `${(offer.rating / 5) * 100}%` }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">{place.rating}</span>
+                <span className="offer__rating-value rating__value">{offer.rating}</span>
               </div>
               <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">{place.type}</li>
+                <li className="offer__feature offer__feature--entire">{offer.type}</li>
                 <li className="offer__feature offer__feature--bedrooms">3 Bedrooms</li>
-                <li className="offer__feature offer__feature--adults">Max {place.maxAdults} adults</li>
+                <li className="offer__feature offer__feature--adults">Max {offer.maxAdults} adults</li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">€{place.price}</b>
+                <b className="offer__price-value">€{offer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  {place.features.map((feature) => (
+                  {offer.features.map((feature) => (
                     <li key={feature} className="offer__inside-item">
                       {feature}
                     </li>
@@ -117,14 +102,14 @@ const OfferPage: React.FC<OfferPageProps> = ({ places }) => {
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className={`offer__avatar-wrapper ${place.host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
-                    <img className="offer__avatar user__avatar" src={place.host.avatar} width="74" height="74" alt="Host avatar" />
+                  <div className={`offer__avatar-wrapper ${offer.host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
+                    <img className="offer__avatar user__avatar" src={offer.host.avatar} width="74" height="74" alt="Host avatar" />
                   </div>
-                  <span className="offer__user-name">{place.host.name}</span>
-                  {place.host.isPro && <span className="offer__user-status">Pro</span>}
+                  <span className="offer__user-name">{offer.host.name}</span>
+                  {offer.host.isPro && <span className="offer__user-status">Pro</span>}
                 </div>
                 <div className="offer__description">
-                  {place.description.split('\n').map((text) => (
+                  {offer.description.split('\n').map((text) => (
                     <p key={text} className="offer__text">{text}</p>
                   ))}
                 </div>
@@ -154,7 +139,6 @@ const OfferPage: React.FC<OfferPageProps> = ({ places }) => {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {/* Render nearby places here */}
             </div>
           </section>
         </div>
