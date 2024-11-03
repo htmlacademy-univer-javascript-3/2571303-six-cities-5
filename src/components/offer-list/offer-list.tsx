@@ -1,11 +1,17 @@
 import {Offer} from '../../types/offer.ts';
 import OfferCard from '../offer-card/offer-card.tsx';
+import {useState} from 'react';
 
 type OfferListProps = {
   offers : Offer[];
 }
 
 function OfferList ({offers} : OfferListProps) {
+
+  //TODO: Состояние пригодится нам в дальнейшем
+  // для реализации отображения маркеров предложений на карте
+  const [activeOfferId, setActiveOfferId] = useState<number | null>(null);
+
   return (
     <div className="cities__places-list places__list tabs__content">
       {offers.map((offer) => (
