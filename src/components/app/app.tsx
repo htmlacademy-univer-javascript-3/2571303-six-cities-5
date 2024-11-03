@@ -2,7 +2,6 @@ import {Route, Routes, BrowserRouter} from 'react-router-dom';
 
 import MainPage from '../../pages/main/main-page';
 import {AppRoute} from '../../consts';
-import {Place} from '../../types/place';
 import NotFoundPage from '../../pages/not-found/not-found';
 import LoginPage from '../../pages/login/login-page';
 import FavoritesPage from '../../pages/favorites/favorites-page';
@@ -11,16 +10,15 @@ import PrivateRoute from '../private-route/private-route';
 import {Offer} from '../../types/offer';
 
 type AppProps = {
-  places: Place[];
   offers: Offer[];
 }
 
-function App({places, offers}: AppProps) {
+function App({offers}: AppProps) {
   return (
     <BrowserRouter>
       <Routes>
         <Route
-          index element={<MainPage places={places}/>}
+          index element={<MainPage offers={offers}/>}
         />
         <Route
           path={AppRoute.Login}

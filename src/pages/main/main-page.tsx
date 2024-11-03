@@ -1,26 +1,13 @@
-import PlaceCard from '../../components/place-card/place-card';
-import {Place} from '../../types/place';
+import {Offer} from '../../types/offer.ts';
+import OfferList from '../../components/offer-list/offer-list.tsx';
 
 type MainPageProps = {
-  places : Place[];
+  offers : Offer[];
 }
 
-function MainPage ({places}: MainPageProps) {
-
+function MainPage ({offers}: MainPageProps) {
   return (
-    <div className="cities__places-list places__list tabs__content">
-      {places.map((place) => (
-        <PlaceCard
-          key={place.name}
-          imageSrc={place.imageSrc}
-          name={place.name}
-          placeType={place.placeType}
-          price={place.price}
-          rating={`${place.rating}%`}
-          premium={place.premium}
-        />
-      ))}
-    </div>
+    <OfferList offers={offers}/>
   );
 }
 

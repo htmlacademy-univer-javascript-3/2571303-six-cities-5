@@ -50,11 +50,9 @@ const OfferPage: React.FC<OfferPageProps> = ({ offers }) => {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {offer.images.map((image) => (
-                <div key={image} className="offer__image-wrapper">
-                  <img className="offer__image" src={image} alt="Photo studio" />
-                </div>
-              ))}
+              <div key={offer.id} className="offer__image-wrapper">
+                <img className="offer__image" src={offer.imageSrc} alt="Photo studio" />
+              </div>
             </div>
           </div>
           <div className="offer__container container">

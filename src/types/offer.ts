@@ -11,7 +11,7 @@ export type Offer = {
   price: number;
   rating: number;
   isPremium: boolean;
-  images: string[];
+  imageSrc: string;
   description: string;
   host: Host;
   features: string[];
