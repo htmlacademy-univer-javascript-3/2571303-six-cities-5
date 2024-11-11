@@ -1,7 +1,28 @@
+import { Offer } from '../../types/offer.ts';
 import FavoriteLocationItem from '../../components/favorite-location-item/favorite-location-item.tsx';
-import {offersData} from '../../mocks/offers.ts';
 
-function FavoritesPage() {
+type GroupedOffers = Record<string, Offer[]>;
+
+function groupOffersByCity(offers: Offer[]): GroupedOffers {
+  return offers.reduce((acc: GroupedOffers, offer: Offer) => {
+    const { city } = offer;
+
+    if (!acc[city]) {
+      acc[city] = [];
+    }
+
+    acc[city].push(offer);
+    return acc;
+  }, {} as GroupedOffers);
+}
+
+type FavoritesPageProps = {
+  offers: Offer[];
+}
+
+function FavoritesPage({ offers }: FavoritesPageProps) {
+  const groupedOffers = groupOffersByCity(offers);
+
   return (
     <div className="page">
       <header className="header">
@@ -24,7 +45,7 @@ function FavoritesPage() {
                   <a className="header__nav-link header__nav-link--profile" href="#">
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
+                    <span className="header__favorite-count">{offers.length}</span>
                   </a>
                 </li>
                 <li className="header__nav-item">
@@ -43,12 +64,11 @@ function FavoritesPage() {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <li className="favorites__locations-items">
-                {<FavoriteLocationItem location="Amsterdam" offers={offersData}/>}
-              </li>
-              <li className="favorites__locations-items">
-                {<FavoriteLocationItem location="Cologne" offers={offersData}/>}
-              </li>
+              {Object.entries(groupedOffers).map(([city, cityOffers]) => (
+                <li key={city} className="favorites__locations-items">
+                  <FavoriteLocationItem location={city} offers={cityOffers} />
+                </li>
+              ))}
             </ul>
           </section>
         </div>

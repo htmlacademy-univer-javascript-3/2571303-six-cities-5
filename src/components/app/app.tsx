@@ -28,7 +28,7 @@ function App({offers}: AppProps) {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute>
-              <FavoritesPage />
+              <FavoritesPage offers={offers} />
             </PrivateRoute>
           }
         />
