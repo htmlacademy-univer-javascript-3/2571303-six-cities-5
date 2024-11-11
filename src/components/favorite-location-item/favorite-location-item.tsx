@@ -18,7 +18,7 @@ function FavoriteLocationItem({location, offers}: FavoriteLocationItemProps) {
       </div>
       <div className="favorites__places">
         {offers.map((offer: Offer) => (
-          <FavoriteOfferCard key={offer.id} imageSrc={offer.imageSrc} price={offer.price} name={offer.name}
+          <FavoriteOfferCard id={offer.id} key={offer.id} imageSrc={offer.imageSrc} price={offer.price} name={offer.name}
             placeType={offer.type} rating={`${offer.rating}`}
           />
         ))}

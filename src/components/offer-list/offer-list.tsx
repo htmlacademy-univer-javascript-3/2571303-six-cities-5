@@ -17,6 +17,7 @@ function OfferList ({offers} : OfferListProps) {
       {offers.map((offer) => (
         <OfferCard
           key={offer.id}
+          id={offer.id}
           imageSrc={offer.imageSrc}
           name={offer.name}
           placeType={offer.type}
