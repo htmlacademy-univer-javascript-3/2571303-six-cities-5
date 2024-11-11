@@ -12,7 +12,7 @@ export const offersData : Offer[] = [
     description: 'A nice and cozy apartment in Amsterdam.',
     host: {
       name: 'Oliver Conner',
-      avatar: 'img/avatar-host.jpg',
+      avatar: 'img/avatar-angelina.jpg',
       isPro: true,
     },
     features: ['Wi-Fi', 'Washing machine', 'Coffee machine'],
@@ -30,7 +30,7 @@ export const offersData : Offer[] = [
     description: 'A beautiful wood and stone room.',
     host: {
       name: 'Anna Smith',
-      avatar: 'img/avatar-guest.jpg',
+      avatar: 'img/avatar-angelina.jpg',
       isPro: false,
     },
     features: ['Towels', 'Heating'],
@@ -48,7 +48,7 @@ export const offersData : Offer[] = [
     description: 'A charming white castle in Cologne.',
     host: {
       name: 'John Doe',
-      avatar: 'img/avatar-host.jpg',
+      avatar: 'img/avatar-angelina.jpg',
       isPro: true,
     },
     features: ['Kitchen', 'Cable TV', 'Dishwasher'],
@@ -66,7 +66,7 @@ export const offersData : Offer[] = [
     description: 'A charming white castle in Cologne.',
     host: {
       name: 'John Doe',
-      avatar: 'img/avatar-host.jpg',
+      avatar: 'img/avatar-angelina.jpg',
       isPro: true,
     },
     features: ['Kitchen', 'Cable TV', 'Dishwasher'],
