@@ -1,13 +1,19 @@
-import React from 'react';
 import {Navigate, useParams} from 'react-router-dom';
 import {AppRoute} from '../../consts.ts';
 import {Offer} from '../../types/offer.ts';
+import CommentForm from '../../components/comment-form/CommentForm.tsx';
 
 type OfferPageProps = {
   offers: Offer[];
 };
 
-const OfferPage: React.FC<OfferPageProps> = ({ offers }) => {
+
+const handleCommentSubmit = (comment: string, rating: number) => {
+  console.log(`New comment: ${comment} with rating: ${rating}`);
+};
+
+
+function OfferPage ({ offers }: OfferPageProps) {
   const { id } = useParams<{ id: string }>();
   const placeId = Number(id);
   const offer = offers.find((p) => p.id === placeId);
@@ -114,20 +120,7 @@ const OfferPage: React.FC<OfferPageProps> = ({ offers }) => {
               </div>
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">1</span></h2>
-                {/* Render reviews here */}
-                <form className="reviews__form form" action="#" method="post">
-                  <label className="reviews__label form__label" htmlFor="review">Your review</label>
-                  <div className="reviews__rating-form form__rating">
-                    {/* Rating inputs */}
-                  </div>
-                  <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
-                  <div className="reviews__button-wrapper">
-                    <p className="reviews__help">
-                      To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
-                    </p>
-                    <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
-                  </div>
-                </form>
+                <CommentForm onSubmit={handleCommentSubmit} />
               </section>
             </div>
           </div>
