@@ -1,6 +1,6 @@
 import {Offer} from '../types/offer.ts';
 
-export const offersData : Offer[] = [
+export const offersData: Offer[] = [
   {
     id: 1,
     name: 'Nice, cozy, warm big bed apartment',
@@ -18,6 +18,7 @@ export const offersData : Offer[] = [
     features: ['Wi-Fi', 'Washing machine', 'Coffee machine'],
     maxAdults: 2,
     city: 'Amsterdam',
+    coordinates: [52.3909553943508, 4.85309666406198],
   },
   {
     id: 2,
@@ -36,6 +37,7 @@ export const offersData : Offer[] = [
     features: ['Towels', 'Heating'],
     maxAdults: 1,
     city: 'Amsterdam',
+    coordinates: [52.3609553943508, 4.85309666406198],
   },
   {
     id: 3,
@@ -54,6 +56,7 @@ export const offersData : Offer[] = [
     features: ['Kitchen', 'Cable TV', 'Dishwasher'],
     maxAdults: 4,
     city: 'Cologne',
+    coordinates: [52.3909553943508, 4.929309666406198],
   },
   {
     id: 4,
@@ -72,5 +75,6 @@ export const offersData : Offer[] = [
     features: ['Kitchen', 'Cable TV', 'Dishwasher'],
     maxAdults: 4,
     city: 'Cologne',
+    coordinates: [52.3809553943508, 4.939309666406198],
   }
 ];

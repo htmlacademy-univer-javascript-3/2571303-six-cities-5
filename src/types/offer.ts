@@ -17,4 +17,5 @@ export type Offer = {
   features: string[];
   maxAdults: number;
   city: string;
+  coordinates: [number, number];
 }
