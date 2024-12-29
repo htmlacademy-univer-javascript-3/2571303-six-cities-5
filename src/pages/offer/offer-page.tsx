@@ -1,7 +1,7 @@
 import {Navigate, useParams} from 'react-router-dom';
 import {AppRoute} from '../../consts.ts';
 import {Offer} from '../../types/offer.ts';
-import CommentForm from '../../components/comment-form/CommentForm.tsx';
+import CommentForm from '../../components/comment-form/comment-form.tsx';
 
 type OfferPageProps = {
   offers: Offer[];
