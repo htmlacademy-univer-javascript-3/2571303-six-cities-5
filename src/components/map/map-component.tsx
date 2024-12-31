@@ -3,6 +3,7 @@ import {useEffect, useRef} from 'react';
 import {Icon, layerGroup, Marker} from 'leaflet';
 import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../consts.ts';
 import useMap from '../hooks/use-map.tsx';
+import 'leaflet/dist/leaflet.css';
 
 type MapComponentProps = {
   city: City;

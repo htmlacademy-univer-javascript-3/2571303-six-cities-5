@@ -16,7 +16,9 @@ function MainPage ({offers}: MainPageProps) {
         <h1></h1>
       </header>
       <main>
-        <MapComponent city={CITY} points={OFFER_COORDINATES} selectedPoint={undefined}/>
+        <div className="cities__map">
+          <MapComponent city={CITY} points={OFFER_COORDINATES} selectedPoint={undefined}/>
+        </div>
       </main>
     </React.Fragment>
   );
