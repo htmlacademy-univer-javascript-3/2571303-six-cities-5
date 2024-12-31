@@ -1,6 +1,6 @@
 import {Offer} from '../types/offer.ts';
 
-export const offersData : Offer[] = [
+export const offersData: Offer[] = [
   {
     id: 1,
     name: 'Nice, cozy, warm big bed apartment',
@@ -12,12 +12,13 @@ export const offersData : Offer[] = [
     description: 'A nice and cozy apartment in Amsterdam.',
     host: {
       name: 'Oliver Conner',
-      avatar: 'img/avatar-host.jpg',
+      avatar: 'img/avatar-angelina.jpg',
       isPro: true,
     },
     features: ['Wi-Fi', 'Washing machine', 'Coffee machine'],
     maxAdults: 2,
     city: 'Amsterdam',
+    coordinates: [52.3909553943508, 4.85309666406198],
   },
   {
     id: 2,
@@ -30,12 +31,13 @@ export const offersData : Offer[] = [
     description: 'A beautiful wood and stone room.',
     host: {
       name: 'Anna Smith',
-      avatar: 'img/avatar-guest.jpg',
+      avatar: 'img/avatar-angelina.jpg',
       isPro: false,
     },
     features: ['Towels', 'Heating'],
     maxAdults: 1,
     city: 'Amsterdam',
+    coordinates: [52.3609553943508, 4.85309666406198],
   },
   {
     id: 3,
@@ -48,12 +50,13 @@ export const offersData : Offer[] = [
     description: 'A charming white castle in Cologne.',
     host: {
       name: 'John Doe',
-      avatar: 'img/avatar-host.jpg',
+      avatar: 'img/avatar-angelina.jpg',
       isPro: true,
     },
     features: ['Kitchen', 'Cable TV', 'Dishwasher'],
     maxAdults: 4,
     city: 'Cologne',
+    coordinates: [52.3909553943508, 4.929309666406198],
   },
   {
     id: 4,
@@ -66,11 +69,12 @@ export const offersData : Offer[] = [
     description: 'A charming white castle in Cologne.',
     host: {
       name: 'John Doe',
-      avatar: 'img/avatar-host.jpg',
+      avatar: 'img/avatar-angelina.jpg',
       isPro: true,
     },
     features: ['Kitchen', 'Cable TV', 'Dishwasher'],
     maxAdults: 4,
     city: 'Cologne',
+    coordinates: [52.3809553943508, 4.939309666406198],
   }
 ];

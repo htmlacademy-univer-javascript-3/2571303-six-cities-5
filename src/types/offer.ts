@@ -1,3 +1,4 @@
+
 type Host = {
   name: string;
   avatar: string;
@@ -17,4 +18,23 @@ export type Offer = {
   features: string[];
   maxAdults: number;
   city: string;
+  coordinates: [number, number];
+}
+
+export type Point = {
+  title: string;
+  lat: number;
+  long: number;
+}
+
+export type City = {
+  title: string;
+  lat: number;
+  lng: number;
+  zoom: number;
+};
+
+export type OfferCoordinates = {
+  city: string;
+  points: Point[];
 }
