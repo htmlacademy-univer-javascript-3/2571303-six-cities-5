@@ -23,9 +23,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function MapComponent(props: MapComponentProps) {
-  const {city, points, selectedPoint} = props;
-
+function MapComponent({city, points, selectedPoint}: MapComponentProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -37,7 +35,6 @@ function MapComponent(props: MapComponentProps) {
           lat: point.lat,
           lng: point.long
         });
-
         marker
           .setIcon(
             selectedPoint !== undefined && point.title === selectedPoint.title
@@ -53,7 +50,13 @@ function MapComponent(props: MapComponentProps) {
     }
   }, [map, points, selectedPoint]);
 
-  return <div style={{height: '500px'}} ref={mapRef}></div>;
+  return (
+    <div className="cities__right-section">
+      <section className="cities__map map">
+        <div style={{height: '500px'}} ref={mapRef}></div>
+      </section>
+    </div>
+  );
 }
 
 export default MapComponent;
