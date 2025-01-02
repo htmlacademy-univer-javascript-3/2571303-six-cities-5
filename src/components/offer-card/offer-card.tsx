@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 
 type OfferCardProps = {
-  id: number;
+  id: string;
   imageSrc: string;
   price: number;
   name: string;

@@ -18,7 +18,7 @@ function App({offers}: AppProps) {
     <BrowserRouter>
       <Routes>
         <Route
-          index element={<MainPage offers={offers}/>}
+          index element={<MainPage/>}
         />
         <Route
           path={AppRoute.Login}

@@ -15,8 +15,7 @@ const handleCommentSubmit = (comment: string, rating: number) => {
 
 function OfferPage ({ offers }: OfferPageProps) {
   const { id } = useParams<{ id: string }>();
-  const placeId = Number(id);
-  const offer = offers.find((p) => p.id === placeId);
+  const offer = offers.find((p) => p.id === id);
 
   if (!offer) {
     return <Navigate to={AppRoute.NotFround} />;
@@ -57,7 +56,7 @@ function OfferPage ({ offers }: OfferPageProps) {
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
               <div key={offer.id} className="offer__image-wrapper">
-                <img className="offer__image" src={offer.imageSrc} alt="Photo studio" />
+                <img className="offer__image" src={offer.previewImage} alt="Photo studio" />
               </div>
             </div>
           </div>
@@ -69,7 +68,7 @@ function OfferPage ({ offers }: OfferPageProps) {
                 </div>
               )}
               <div className="offer__name-wrapper">
-                <h1 className="offer__name">{offer.name}</h1>
+                <h1 className="offer__name">{offer.city.name}</h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
@@ -136,6 +135,6 @@ function OfferPage ({ offers }: OfferPageProps) {
       </main>
     </div>
   );
-};
+}
 
 export default OfferPage;

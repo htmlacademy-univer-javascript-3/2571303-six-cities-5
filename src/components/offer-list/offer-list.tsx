@@ -18,8 +18,8 @@ function OfferList ({offers} : OfferListProps) {
         <OfferCard
           key={offer.id}
           id={offer.id}
-          imageSrc={offer.imageSrc}
-          name={offer.name}
+          imageSrc={offer.previewImage}
+          name={offer.city.name}
           placeType={offer.type}
           price={offer.price}
           rating={`${offer.rating * 20}%`}
