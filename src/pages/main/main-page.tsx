@@ -8,7 +8,6 @@ import CityList from '../../components/city-list/city-list';
 import OFFER_COORDINATES, { CITY } from '../../mocks/points.ts';
 import {City} from '../../types/offer.ts';
 import {CITIES} from '../../consts.ts';
-import {offersData} from '../../mocks/offers.ts';
 
 function MainPage() {
 

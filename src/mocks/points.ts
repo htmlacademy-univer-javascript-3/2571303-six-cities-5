@@ -1,7 +1,5 @@
 import {City, Point} from '../types/offer.ts';
 
-
-
 export const CITY: City = {
   name: 'Amsterdam',
   location: {
