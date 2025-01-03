@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
 import { fetchOffersByCity } from '../../store/action.ts';
 import OfferList from '../../components/offer-list/offer-list';
 import MapComponent from '../../components/map/map-component';
@@ -44,7 +44,7 @@ function MainPage({offers}: MainPageProps) {
   return (
     <React.Fragment>
       <header>
-        <h1>City Offers</h1>
+        <h1>{offers.length} places to stay in {activeCity}</h1>
       </header>
       <main>
         <CityList cities={CITIES} activeCity={activeCity} onCityClick={handleCityClick} />
