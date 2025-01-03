@@ -12,6 +12,7 @@ type OfferPageProps = {
 
 
 const handleCommentSubmit = (comment: string, rating: number) => {
+  // eslint-disable-next-line no-console
   console.log(`New comment: ${comment} with rating: ${rating}`);
 };
 

@@ -1,6 +1,5 @@
 import {Offer} from '../../types/offer.ts';
 import OfferCard from '../offer-card/offer-card.tsx';
-import React, {useState} from 'react';
 import SortingComponent from '../sorting/sorting-component.tsx';
 
 type OfferListProps = {
@@ -9,11 +8,6 @@ type OfferListProps = {
 }
 
 function OfferList ({offers, activeCity} : OfferListProps) {
-
-  //TODO: Состояние пригодится нам в дальнейшем
-  // для реализации отображения маркеров предложений на карте
-  const [activeOfferId, setActiveOfferId] = useState<number | null>(null);
-
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
