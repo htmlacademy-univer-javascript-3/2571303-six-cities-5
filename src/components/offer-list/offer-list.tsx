@@ -6,9 +6,10 @@ import SortingComponent from '../sorting/sorting-component.tsx';
 type OfferListProps = {
   offers: Offer[];
   activeCity: string;
+  onOfferHover: (offerId: string | null) => void;
 }
 
-function OfferList({ offers, activeCity }: OfferListProps) {
+function OfferList({ offers, activeCity, onOfferHover }: OfferListProps) {
   const [sortOption, setSortOption] = useState<string>('Popular');
 
   const sortedOffers = useMemo(() => {
@@ -44,6 +45,7 @@ function OfferList({ offers, activeCity }: OfferListProps) {
             price={offer.price}
             rating={`${offer.rating * 20}%`}
             premium={offer.isPremium}
+            onHover={onOfferHover} // Pass down the hover handler
           />
         ))}
       </div>

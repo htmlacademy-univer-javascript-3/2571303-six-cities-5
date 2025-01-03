@@ -1,7 +1,7 @@
-import {City, Point} from '../../types/offer.ts';
-import {useEffect, useRef} from 'react';
-import {Icon, layerGroup, Marker} from 'leaflet';
-import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../consts.ts';
+import { City, Point } from '../../types/offer.ts';
+import { useEffect, useRef } from 'react';
+import { Icon, layerGroup, Marker } from 'leaflet';
+import { URL_MARKER_ACTIVE, URL_MARKER_DEFAULT } from '../../consts.ts';
 import useMap from '../hooks/use-map.tsx';
 import 'leaflet/dist/leaflet.css';
 
@@ -18,12 +18,12 @@ const defaultCustomIcon = new Icon({
 });
 
 const currentCustomIcon = new Icon({
-  iconUrl: URL_MARKER_CURRENT,
+  iconUrl: URL_MARKER_ACTIVE,
   iconSize: [40, 40],
   iconAnchor: [20, 40]
 });
 
-function MapComponent({city, points, selectedPoint}: MapComponentProps) {
+function MapComponent({ city, points, selectedPoint }: MapComponentProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -53,7 +53,7 @@ function MapComponent({city, points, selectedPoint}: MapComponentProps) {
   }, [map, points, selectedPoint]);
 
   return (
-    <div style={{height: '100%'}} ref={mapRef}></div>
+    <div style={{ height: '100%' }} ref={mapRef}></div>
   );
 }
 
