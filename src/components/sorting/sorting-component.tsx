@@ -1,6 +1,10 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
-function SortingComponent() {
+type SortingComponentProps = {
+  onSortChange: (selectedOption: string) => void;
+};
+
+function SortingComponent({ onSortChange }: SortingComponentProps) {
   const [isOpened, setIsOpened] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>('Popular');
 
@@ -13,6 +17,7 @@ function SortingComponent() {
 
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
+    onSortChange(option);
     setIsOpened(false);
   };
 
