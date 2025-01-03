@@ -1,6 +1,28 @@
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../../store/action.ts';
+import { RootState } from '../../store';
 
 function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const error = useSelector((state: RootState) => state.offers.error);
+  const authorizationStatus = useSelector((state: RootState) => state.offers.authorizationStatus);
+
+  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    dispatch(login(email, password));
+  };
+
+  React.useEffect(() => {
+    if (authorizationStatus) {
+      navigate('/');
+    }
+  }, [authorizationStatus, navigate]);
+
   return (
     <div className="page page--gray page--login">
       <header className="header">
@@ -25,7 +47,7 @@ function LoginPage() {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form className="login__form form" onSubmit={handleLogin}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label htmlFor="email" className="visually-hidden">Email</label>
                 <input
@@ -34,6 +56,8 @@ function LoginPage() {
                   type="email"
                   name="email"
                   placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
@@ -45,12 +69,15 @@ function LoginPage() {
                   type="password"
                   name="password"
                   placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>
               <button className="login__submit form__submit button" type="submit">
                 Sign in
               </button>
+              {error && <p className="error-message">{error}</p>}
             </form>
           </section>
           <section className="locations locations--login locations--current">

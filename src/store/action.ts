@@ -3,9 +3,11 @@ import { AppDispatch, ThunkExtraArgument } from './index';
 import { Offer, City } from '../types/offer.ts';
 import {setAuthorizationStatus, setCity, setOffers} from './reducer.ts';
 import axios from 'axios';
+import {User} from '../types/user.ts';
 
 export const setLoading = createAction<boolean>('offers/setLoading');
 export const setError = createAction<string | null>('offers/setError');
+export const setAllOffers = createAction<Offer[]>('offers/setAllOffers');
 
 export const fetchOffersByCity = (city: City) => async (dispatch: AppDispatch, _getState: never, axiosInstance: ThunkExtraArgument) => {
   dispatch(setLoading(true));
@@ -24,17 +26,31 @@ export const fetchOffersByCity = (city: City) => async (dispatch: AppDispatch, _
   }
 };
 
-export const login = () => async (dispatch: AppDispatch, _getState: never, axiosInstance: ThunkExtraArgument) => {
+export const login = (email: string, password: string) => async (dispatch: AppDispatch, _getState: never, axiosInstance: ThunkExtraArgument) => {
   try {
-    const response = await axiosInstance.get('/login');
+    const response = await axiosInstance.post<User>('/login', {
+      email,
+      password
+    });
+
     if (response.status === 200) {
+      const { token } = response.data;
+      localStorage.setItem('authToken', token);
       dispatch(setAuthorizationStatus(true));
+      dispatch(setError(null));
     }
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.status === 401) {
-      dispatch(setAuthorizationStatus(false));
+    if (axios.isAxiosError(error) && error.response) {
+      if (error.response.status === 400) {
+        dispatch(setError('Bad data'));
+      } else if (error.response.status === 401) {
+        dispatch(setError('Auth error'));
+        dispatch(setAuthorizationStatus(false));
+      } else {
+        dispatch(setError('Auth error'));
+      }
     } else {
-      dispatch(setError('Failed to login.'));
+      dispatch(setError('Network error'));
     }
   }
 };
