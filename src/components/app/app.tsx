@@ -7,8 +7,8 @@ import LoginPage from '../../pages/login/login-page';
 import FavoritesPage from '../../pages/favorites/favorites-page';
 import OfferPage from '../../pages/offer/offer-page';
 import PrivateRoute from '../private-route/private-route';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../store';
+// import {useSelector} from 'react-redux';
+// import {RootState} from '../../store';
 import {OFFERS_DATA} from '../../mocks/offers.ts';
 
 function App() {
