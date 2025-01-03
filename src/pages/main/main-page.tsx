@@ -40,7 +40,7 @@ function MainPage({ offers }: MainPageProps) {
       },
     };
     dispatch(fetchOffersByCity(cityObject));
-  }, [activeCity, dispatch, offers]);
+  }, [activeCity]);
 
   const offerCoordinates = offers.map((offer) => ({
     title: offer.title,
