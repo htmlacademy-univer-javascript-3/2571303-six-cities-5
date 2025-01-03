@@ -1,28 +1,29 @@
-import {Navigate, useParams} from 'react-router-dom';
-import {AppRoute} from '../../consts.ts';
-import {Offer} from '../../types/offer.ts';
-import CommentForm from '../../components/comment-form/comment-form.tsx';
-import HostInfo from '../../components/host-info/host-info.tsx';
-import {CITY, OFFER_COORDINATES} from '../../mocks/points.ts';
-import MapComponent from '../../components/map/map-component.tsx';
+import { Navigate, useParams } from 'react-router-dom';
+import { AppRoute } from '../../consts';
+import { Offer } from '../../types/offer';
+import CommentForm from '../../components/comment-form/comment-form';
+import HostInfo from '../../components/host-info/host-info';
+import { CITY, OFFER_COORDINATES } from '../../mocks/points';
+import MapComponent from '../../components/map/map-component';
+import ReviewList from '../../components/reviews-list/reviews-list.tsx';
+import { REVIEWS } from '../../mocks/reviews';
 
 type OfferPageProps = {
   offers: Offer[];
 };
 
-
 const handleCommentSubmit = (comment: string, rating: number) => {
-  // eslint-disable-next-line no-console
   console.log(`New comment: ${comment} with rating: ${rating}`);
 };
 
-
-function OfferPage ({ offers }: OfferPageProps) {
+function OfferPage({ offers }: OfferPageProps) {
   const { id } = useParams<{ id: string }>();
   const offer = offers.find((p) => p.id === id);
+
   if (!offer) {
-    return <Navigate to={AppRoute.NotFround} />;
+    return <Navigate to={AppRoute.NotFound} />;
   }
+
   const features = offer.features || [];
   return (
     <div className="page">
@@ -109,7 +110,7 @@ function OfferPage ({ offers }: OfferPageProps) {
                 <HostInfo host={offer.host} description={offer.description} />
               </div>
               <section className="offer__reviews reviews">
-                <h2 className="reviews__title">Reviews · <span className="reviews__amount">1</span></h2>
+                <ReviewList reviews={REVIEWS} />
                 <CommentForm onSubmit={handleCommentSubmit} />
               </section>
             </div>
