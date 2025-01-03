@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 
 type FavoriteOfferCardProps = {
-  id: number;
+  id: string;
   imageSrc: string;
   price: number;
   name: string;

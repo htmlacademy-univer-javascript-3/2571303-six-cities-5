@@ -23,37 +23,38 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function MapComponent(props: MapComponentProps) {
-  const {city, points, selectedPoint} = props;
-
+function MapComponent({city, points, selectedPoint}: MapComponentProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
   useEffect(() => {
-    if (map) {
-      const markerLayer = layerGroup().addTo(map);
-      points.forEach((point) => {
-        const marker = new Marker({
-          lat: point.lat,
-          lng: point.long
-        });
-
-        marker
-          .setIcon(
-            selectedPoint !== undefined && point.title === selectedPoint.title
-              ? currentCustomIcon
-              : defaultCustomIcon
-          )
-          .addTo(markerLayer);
-      });
-
-      return () => {
-        map.removeLayer(markerLayer);
-      };
+    if (!map) {
+      return;
     }
+    const markerLayer = layerGroup().addTo(map);
+    points.forEach((point) => {
+      const marker = new Marker({
+        lat: point.lat,
+        lng: point.long
+      });
+      marker
+        .setIcon(
+          selectedPoint !== undefined && point.title === selectedPoint.title
+            ? currentCustomIcon
+            : defaultCustomIcon
+        )
+        .addTo(markerLayer);
+    });
+
+    return () => {
+      map.removeLayer(markerLayer);
+    };
+
   }, [map, points, selectedPoint]);
 
-  return <div style={{height: '500px'}} ref={mapRef}></div>;
+  return (
+    <div style={{height: '100%'}} ref={mapRef}></div>
+  );
 }
 
 export default MapComponent;

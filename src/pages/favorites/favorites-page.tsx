@@ -7,11 +7,11 @@ function groupOffersByCity(offers: Offer[]): GroupedOffers {
   return offers.reduce((acc: GroupedOffers, offer: Offer) => {
     const { city } = offer;
 
-    if (!acc[city]) {
-      acc[city] = [];
+    if (!acc[city.name]) {
+      acc[city.name] = [];
     }
 
-    acc[city].push(offer);
+    acc[city.name].push(offer);
     return acc;
   }, {} as GroupedOffers);
 }

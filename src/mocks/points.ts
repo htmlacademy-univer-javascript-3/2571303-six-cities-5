@@ -1,11 +1,12 @@
 import {City, Point} from '../types/offer.ts';
 
-
 export const CITY: City = {
-  title: 'Amsterdam',
-  lat: 52.3609553943508,
-  lng: 4.85309666406198,
-  zoom: 1
+  name: 'Amsterdam',
+  location: {
+    latitude: 52.3609553943508,
+    longitude: 4.85309666406198,
+    zoom: 1
+  }
 };
 
 export const OFFER_COORDINATES: Point[] = [

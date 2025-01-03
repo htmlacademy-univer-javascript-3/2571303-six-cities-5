@@ -1,40 +1,52 @@
-
 type Host = {
   name: string;
   avatar: string;
   isPro: boolean;
-}
+};
 
 export type Offer = {
-  id: number;
-  name: string;
-  type: 'Apartment' | 'Room';
+  id: string;
+  title: string;
+  type: string;
   price: number;
   rating: number;
   isPremium: boolean;
-  imageSrc: string;
+  isFavorite: boolean;
+  previewImage: string;
   description: string;
   host: Host;
   features: string[];
   maxAdults: number;
-  city: string;
-  coordinates: [number, number];
-}
+  city: {
+    name: string;
+    location: {
+      latitude: number;
+      longitude: number;
+      zoom: number;
+    };
+  };
+  coordinates: {
+    latitude: number;
+    longitude: number;
+  };
+};
 
 export type Point = {
   title: string;
   lat: number;
   long: number;
-}
+};
 
 export type City = {
-  title: string;
-  lat: number;
-  lng: number;
-  zoom: number;
+  name: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
 };
 
 export type OfferCoordinates = {
   city: string;
   points: Point[];
-}
+};

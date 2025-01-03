@@ -7,13 +7,11 @@ import LoginPage from '../../pages/login/login-page';
 import FavoritesPage from '../../pages/favorites/favorites-page';
 import OfferPage from '../../pages/offer/offer-page';
 import PrivateRoute from '../private-route/private-route';
-import {Offer} from '../../types/offer';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
-type AppProps = {
-  offers: Offer[];
-}
-
-function App({offers}: AppProps) {
+function App() {
+  const offers = useSelector((state: RootState) => state.offers.offers);
   return (
     <BrowserRouter>
       <Routes>
