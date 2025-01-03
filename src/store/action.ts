@@ -33,7 +33,7 @@ export const login = (email: string, password: string) => async (dispatch: AppDi
       password
     });
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       const { token } = response.data;
       localStorage.setItem('authToken', token);
       dispatch(setAuthorizationStatus(true));
