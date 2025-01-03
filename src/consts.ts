@@ -3,7 +3,7 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer/:id',
-  NotFround = '/not-fround',
+  NotFound = '/not-fround',
 }
 
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
