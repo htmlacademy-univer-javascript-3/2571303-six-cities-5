@@ -1,20 +1,41 @@
-import {Offer} from '../../types/offer.ts';
+import { useState, useMemo } from 'react';
+import { Offer } from '../../types/offer.ts';
 import OfferCard from '../offer-card/offer-card.tsx';
 import SortingComponent from '../sorting/sorting-component.tsx';
 
 type OfferListProps = {
-  offers : Offer[];
+  offers: Offer[];
   activeCity: string;
+  onOfferHover: (offerId: string | null) => void;
 }
 
-function OfferList ({offers, activeCity} : OfferListProps) {
+function OfferList({ offers, activeCity, onOfferHover }: OfferListProps) {
+  const [sortOption, setSortOption] = useState<string>('Popular');
+
+  const sortedOffers = useMemo(() => {
+    switch (sortOption) {
+      case 'Price: low to high':
+        return [...offers].sort((a, b) => a.price - b.price);
+      case 'Price: high to low':
+        return [...offers].sort((a, b) => b.price - a.price);
+      case 'Top rated first':
+        return [...offers].sort((a, b) => b.rating - a.rating);
+      default:
+        return offers;
+    }
+  }, [offers, sortOption]);
+
+  const handleSortChange = (selectedOption: string) => {
+    setSortOption(selectedOption);
+  };
+
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
-      <b className="places__found">{offers.length} places to stay in {activeCity}</b>
-      <SortingComponent/>
+      <b className="places__found">{sortedOffers.length} places to stay in {activeCity}</b>
+      <SortingComponent onSortChange={handleSortChange} />
       <div className="cities__places-list places__list tabs__content">
-        {offers.map((offer) => (
+        {sortedOffers.map((offer) => (
           <OfferCard
             key={offer.id}
             id={offer.id}
@@ -24,6 +45,7 @@ function OfferList ({offers, activeCity} : OfferListProps) {
             price={offer.price}
             rating={`${offer.rating * 20}%`}
             premium={offer.isPremium}
+            onHover={onOfferHover} // Pass down the hover handler
           />
         ))}
       </div>

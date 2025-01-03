@@ -5,7 +5,7 @@ import { fetchOffersByCity } from '../../store/action.ts';
 import OfferList from '../../components/offer-list/offer-list';
 import MapComponent from '../../components/map/map-component';
 import CityList from '../../components/city-list/city-list';
-import {City, Offer} from '../../types/offer.ts';
+import { City, Offer } from '../../types/offer.ts';
 import { CITIES } from '../../consts.ts';
 import { CITY } from '../../mocks/points.ts';
 import Header from '../../components/header/header.tsx';
@@ -14,11 +14,16 @@ type MainPageProps = {
   offers: Offer[];
 }
 
-function MainPage({offers}: MainPageProps) {
+function MainPage({ offers }: MainPageProps) {
   const [activeCity, setActiveCity] = useState(CITIES[0]);
+  const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
 
   const handleCityClick = (city: string) => {
     setActiveCity(city);
+  };
+
+  const handleOfferHover = (offerId: string | null) => {
+    setHoveredOfferId(offerId);
   };
 
   const dispatch: AppDispatch = useDispatch();
@@ -38,20 +43,23 @@ function MainPage({offers}: MainPageProps) {
   const offerCoordinates = offers.map((offer) => ({
     title: offer.title,
     lat: offer.city.location.latitude,
-    long: offer.city.location.longitude
+    long: offer.city.location.longitude,
+    id: offer.id
   }));
+
+  const selectedPoint = offerCoordinates.find(point => point.id === hoveredOfferId);
 
   return (
     <div className="page page--gray page--main">
-      <Header/>
+      <Header />
       <main className="page__main page__main--index">
-        <CityList cities={CITIES} activeCity={activeCity} onCityClick={handleCityClick}/>
+        <CityList cities={CITIES} activeCity={activeCity} onCityClick={handleCityClick} />
         <div className="cities">
           <div className="cities__places-container container">
-            <OfferList offers={offers} activeCity={activeCity}/>
+            <OfferList offers={offers} activeCity={activeCity} onOfferHover={handleOfferHover} />
             <div className="cities__right-section">
               <section className="cities__map map">
-                <MapComponent city={CITY} points={offerCoordinates} selectedPoint={undefined}/>
+                <MapComponent city={CITY} points={offerCoordinates} selectedPoint={selectedPoint} />
               </section>
             </div>
           </div>

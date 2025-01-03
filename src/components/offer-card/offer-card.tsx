@@ -8,11 +8,19 @@ type OfferCardProps = {
   placeType: string;
   rating: string;
   premium?: boolean;
+  onHover: (offerId: string | null) => void;
 }
 
-function OfferCard({id, imageSrc, price, name, placeType, rating, premium}: OfferCardProps) {
+function OfferCard({id, imageSrc, price, name, placeType, rating, premium, onHover}: OfferCardProps) {
+  const handleMouseEnter = () => onHover(id);
+  const handleMouseLeave = () => onHover(null);
+
   return (
-    <article className="cities__card place-card">
+    <article
+      className="cities__card place-card"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       {premium && (
         <div className="place-card__mark">
           <span>Premium</span>
@@ -52,4 +60,3 @@ function OfferCard({id, imageSrc, price, name, placeType, rating, premium}: Offe
 }
 
 export default OfferCard;
-
