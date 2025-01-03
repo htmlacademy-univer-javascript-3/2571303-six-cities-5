@@ -7,18 +7,18 @@ import LoginPage from '../../pages/login/login-page';
 import FavoritesPage from '../../pages/favorites/favorites-page';
 import OfferPage from '../../pages/offer/offer-page';
 import PrivateRoute from '../private-route/private-route';
-import {Offer} from '../../types/offer';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
-type AppProps = {
-  offers: Offer[];
-}
+function App() {
 
-function App({offers}: AppProps) {
+  const offers = useSelector((state: RootState) => state.offers.offers);
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
-          index element={<MainPage/>}
+          index element={<MainPage offers={offers}/>}
         />
         <Route
           path={AppRoute.Login}

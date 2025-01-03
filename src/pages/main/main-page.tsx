@@ -5,11 +5,16 @@ import { fetchOffersByCity } from '../../store/action.ts';
 import OfferList from '../../components/offer-list/offer-list';
 import MapComponent from '../../components/map/map-component';
 import CityList from '../../components/city-list/city-list';
-import { City } from '../../types/offer.ts';
+import {City, Offer} from '../../types/offer.ts';
 import { CITIES } from '../../consts.ts';
 import { CITY } from '../../mocks/points.ts';
 
-function MainPage() {
+
+type MainPageProps = {
+  offers: Offer[];
+}
+
+function MainPage({offers}: MainPageProps) {
   const [activeCity, setActiveCity] = useState(CITIES[0]);
 
   const handleCityClick = (city: string) => {
@@ -17,7 +22,6 @@ function MainPage() {
   };
 
   const dispatch: AppDispatch = useDispatch();
-  const offers = useSelector((state: RootState) => state.offers.offers);
 
   useEffect(() => {
     const cityObject: City = {
