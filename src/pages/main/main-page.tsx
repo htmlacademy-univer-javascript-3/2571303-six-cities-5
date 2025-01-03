@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { fetchOffersByCity } from '../../store/action.ts';
@@ -8,7 +8,6 @@ import CityList from '../../components/city-list/city-list';
 import {City, Offer} from '../../types/offer.ts';
 import { CITIES } from '../../consts.ts';
 import { CITY } from '../../mocks/points.ts';
-
 
 type MainPageProps = {
   offers: Offer[];
@@ -42,20 +41,19 @@ function MainPage({offers}: MainPageProps) {
   }));
 
   return (
-    <React.Fragment>
-      <header>
-        <h1>{offers.length} places to stay in {activeCity}</h1>
-      </header>
-      <main>
-        <CityList cities={CITIES} activeCity={activeCity} onCityClick={handleCityClick} />
-        <div className="cities">
-          <div className="cities__places-container container">
-            <OfferList offers={offers} />
-            <MapComponent city={CITY} points={offerCoordinates} selectedPoint={undefined} />
+    <main className="page__main page__main--index">
+      <CityList cities={CITIES} activeCity={activeCity} onCityClick={handleCityClick} />
+      <div className="cities">
+        <div className="cities__places-container container">
+          <OfferList offers={offers} activeCity={activeCity}/>
+          <div className="cities__right-section">
+            <section className="cities__map map">
+              <MapComponent city={CITY} points={offerCoordinates} selectedPoint={undefined}/>
+            </section>
           </div>
         </div>
-      </main>
-    </React.Fragment>
+      </div>
+    </main>
   );
 }
 

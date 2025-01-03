@@ -28,34 +28,32 @@ function MapComponent({city, points, selectedPoint}: MapComponentProps) {
   const map = useMap(mapRef, city);
 
   useEffect(() => {
-    if (map) {
-      const markerLayer = layerGroup().addTo(map);
-      points.forEach((point) => {
-        const marker = new Marker({
-          lat: point.lat,
-          lng: point.long
-        });
-        marker
-          .setIcon(
-            selectedPoint !== undefined && point.title === selectedPoint.title
-              ? currentCustomIcon
-              : defaultCustomIcon
-          )
-          .addTo(markerLayer);
-      });
-
-      return () => {
-        map.removeLayer(markerLayer);
-      };
+    if (!map) {
+      return;
     }
+    const markerLayer = layerGroup().addTo(map);
+    points.forEach((point) => {
+      const marker = new Marker({
+        lat: point.lat,
+        lng: point.long
+      });
+      marker
+        .setIcon(
+          selectedPoint !== undefined && point.title === selectedPoint.title
+            ? currentCustomIcon
+            : defaultCustomIcon
+        )
+        .addTo(markerLayer);
+    });
+
+    return () => {
+      map.removeLayer(markerLayer);
+    };
+
   }, [map, points, selectedPoint]);
 
   return (
-    <div className="cities__right-section">
-      <section className="cities__map map">
-        <div style={{height: '500px'}} ref={mapRef}></div>
-      </section>
-    </div>
+    <div style={{height: '100%'}} ref={mapRef}></div>
   );
 }
 

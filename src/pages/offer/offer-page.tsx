@@ -3,6 +3,8 @@ import {AppRoute} from '../../consts.ts';
 import {Offer} from '../../types/offer.ts';
 import CommentForm from '../../components/comment-form/comment-form.tsx';
 import HostInfo from '../../components/host-info/host-info.tsx';
+import {CITY, OFFER_COORDINATES} from '../../mocks/points.ts';
+import MapComponent from '../../components/map/map-component.tsx';
 
 type OfferPageProps = {
   offers: Offer[];
@@ -111,7 +113,9 @@ function OfferPage ({ offers }: OfferPageProps) {
               </section>
             </div>
           </div>
-          <section className="offer__map map"></section>
+          <section className="offer__map map">
+            <MapComponent city={CITY} points={OFFER_COORDINATES} selectedPoint={undefined} />
+          </section>
         </section>
         <div className="container">
           <section className="near-places places">

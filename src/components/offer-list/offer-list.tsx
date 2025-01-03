@@ -1,12 +1,14 @@
 import {Offer} from '../../types/offer.ts';
 import OfferCard from '../offer-card/offer-card.tsx';
 import React, {useState} from 'react';
+import SortingComponent from '../sorting/sorting-component.tsx';
 
 type OfferListProps = {
   offers : Offer[];
+  activeCity: string;
 }
 
-function OfferList ({offers} : OfferListProps) {
+function OfferList ({offers, activeCity} : OfferListProps) {
 
   //TODO: Состояние пригодится нам в дальнейшем
   // для реализации отображения маркеров предложений на карте
@@ -14,6 +16,9 @@ function OfferList ({offers} : OfferListProps) {
 
   return (
     <section className="cities__places places">
+      <h2 className="visually-hidden">Places</h2>
+      <b className="places__found">{offers.length} places to stay in {activeCity}</b>
+      <SortingComponent/>
       <div className="cities__places-list places__list tabs__content">
         {offers.map((offer) => (
           <OfferCard

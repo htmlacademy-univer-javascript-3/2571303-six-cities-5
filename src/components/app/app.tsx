@@ -11,9 +11,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
 
 function App() {
-
   const offers = useSelector((state: RootState) => state.offers.offers);
-
   return (
     <BrowserRouter>
       <Routes>
