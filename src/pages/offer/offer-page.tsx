@@ -8,6 +8,7 @@ import MapComponent from '../../components/map/map-component';
 import ReviewList from '../../components/reviews-list/reviews-list.tsx';
 import { REVIEWS } from '../../mocks/reviews';
 import Header from '../../components/header/header.tsx';
+import NearOffersList from '../../components/near-offers-list/near-offers-list.tsx';
 
 type OfferPageProps = {
   offers: Offer[];
@@ -20,6 +21,7 @@ const handleCommentSubmit = (comment: string, rating: number) => {
 function OfferPage({ offers }: OfferPageProps) {
   const { id } = useParams<{ id: string }>();
   const offer = offers.find((p) => p.id === id);
+  const nearbyOffers = offers.slice(0, 3);
 
   if (!offer) {
     return <Navigate to={AppRoute.NotFound} />;
@@ -96,8 +98,7 @@ function OfferPage({ offers }: OfferPageProps) {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
-            </div>
+            <NearOffersList offers={nearbyOffers} />
           </section>
         </div>
       </main>
