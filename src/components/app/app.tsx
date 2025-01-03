@@ -9,11 +9,9 @@ import OfferPage from '../../pages/offer/offer-page';
 import PrivateRoute from '../private-route/private-route';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
-// import {OFFERS_DATA} from '../../mocks/offers.ts';
 
 function App() {
   const offers = useSelector((state: RootState) => state.offers.offers);
-  // const offers = OFFERS_DATA;
   return (
     <BrowserRouter>
       <Routes>
