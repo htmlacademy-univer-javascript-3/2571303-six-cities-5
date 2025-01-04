@@ -9,7 +9,7 @@ import MapComponent from '../../components/map/map-component';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Header from '../../components/header/header';
 import NearOffersList from '../../components/near-offers-list/near-offers-list';
-import { fetchComments } from '../../api/api';
+import { fetchComments, fetchNearbyOffers } from '../../api/api';
 import { Comment } from '../../types/comment.ts';
 
 type OfferPageProps = {
@@ -23,22 +23,26 @@ const handleCommentSubmit = (comment: string, rating: number) => {
 function OfferPage({ offers }: OfferPageProps) {
   const { id } = useParams<{ id: string }>();
   const [comments, setComments] = useState<Comment[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [nearbyOffers, setNearbyOffers] = useState<Offer[]>([]);
 
   const offer = offers.find((p) => p.id === id);
-  const nearbyOffers = offers.slice(0, 3);
 
   useEffect(() => {
     if (id) {
       fetchComments(id)
         .then((data) => {
           setComments(data);
-          setLoading(false);
         })
-        .catch(() => {
-          setError('Failed to load comments');
-          setLoading(false);
+        .catch((error) => {
+          console.error('Failed to load comments', error);
+        });
+
+      fetchNearbyOffers(id)
+        .then((data) => {
+          setNearbyOffers(data);
+        })
+        .catch((error) => {
+          console.error('Failed to load nearby offers', error);
         });
     }
   }, [id]);
