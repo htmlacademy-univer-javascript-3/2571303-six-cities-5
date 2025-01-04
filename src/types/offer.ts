@@ -25,7 +25,7 @@ export type Offer = {
       zoom: number;
     };
   };
-  coordinates: {
+  location: {
     latitude: number;
     longitude: number;
   };

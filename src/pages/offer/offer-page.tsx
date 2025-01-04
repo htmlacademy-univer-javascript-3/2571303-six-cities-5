@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { AppRoute } from '../../consts';
-import { Offer } from '../../types/offer';
+import { Offer, Point } from '../../types/offer';
 import CommentForm from '../../components/comment-form/comment-form';
 import HostInfo from '../../components/host-info/host-info';
-import { CITY, OFFER_COORDINATES } from '../../mocks/points';
 import MapComponent from '../../components/map/map-component';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Header from '../../components/header/header';
 import NearOffersList from '../../components/near-offers-list/near-offers-list';
 import { fetchComments, fetchNearbyOffers, fetchOfferById } from '../../api/api';
-import { Comment } from '../../types/comment.ts';
+import { Comment } from '../../types/comment';
 import Spinner from '../../components/spinner/spinner';
-import PhotoGallery from '../../components/photo-gallery/photo-gallery.tsx';
+import PhotoGallery from '../../components/photo-gallery/photo-gallery';
 
 const handleCommentSubmit = (comment: string, rating: number) => {
   console.log(`New comment: ${comment} with rating: ${rating}`);
@@ -23,6 +22,7 @@ function OfferPage() {
   const [offer, setOffer] = useState<Offer | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [nearbyOffers, setNearbyOffers] = useState<Offer[]>([]);
+  const [points, setPoints] = useState<Point[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -50,6 +50,12 @@ function OfferPage() {
       fetchNearbyOffers(id)
         .then((data) => {
           setNearbyOffers(data);
+          setPoints(data.map((offerItem) => ({
+            title: offerItem.title,
+            lat: offerItem.location.latitude,
+            long: offerItem.location.longitude
+          })));
+          console.log(points);
         });
     }
   }, [id]);
@@ -64,6 +70,7 @@ function OfferPage() {
 
   const features = offer.goods || [];
   const images = offer.images || [];
+
   return (
     <div className="page">
       <Header />
@@ -122,7 +129,7 @@ function OfferPage() {
             </div>
           </div>
           <section className="offer__map map">
-            <MapComponent city={CITY} points={OFFER_COORDINATES} selectedPoint={undefined} />
+            <MapComponent city={offer.city} points={points} selectedPoint={undefined} />
           </section>
         </section>
         <div className="container">
