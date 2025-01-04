@@ -33,3 +33,7 @@ export const fetchNearbyOffers = (offerId: string): Promise<Offer[]> =>
 export const fetchComments = (offerId: string): Promise<Comment[]> =>
   api.get<Comment[]>(`/comments/${offerId}`)
     .then((response) => response.data);
+
+export const postComment = (offerId: string, commentData: { comment: string; rating: number }): Promise<Comment> =>
+  api.post<Comment>(`/comments/${offerId}`, commentData)
+    .then((response) => response.data);

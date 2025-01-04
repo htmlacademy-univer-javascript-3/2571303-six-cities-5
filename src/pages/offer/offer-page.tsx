@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { fetchComments, fetchNearbyOffers, fetchOfferById, postComment } from '../../api/api';
 import { AppRoute } from '../../consts';
 import { Offer, Point } from '../../types/offer';
 import CommentForm from '../../components/comment-form/comment-form';
@@ -8,13 +10,14 @@ import MapComponent from '../../components/map/map-component';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Header from '../../components/header/header';
 import NearOffersList from '../../components/near-offers-list/near-offers-list';
-import { fetchComments, fetchNearbyOffers, fetchOfferById } from '../../api/api';
-import { Comment } from '../../types/comment';
 import Spinner from '../../components/spinner/spinner';
 import PhotoGallery from '../../components/photo-gallery/photo-gallery';
+import { RootState } from '../../store';
 
-const handleCommentSubmit = (comment: string, rating: number) => {
-  console.log(`New comment: ${comment} with rating: ${rating}`);
+const handleCommentSubmit = (comment: string, rating: number, offerId: string, setComments: React.Dispatch<React.SetStateAction<Comment[]>>) => {
+  postComment(offerId, { comment, rating }).then((newComment) => {
+    setComments((prevComments) => [...prevComments, newComment]);
+  });
 };
 
 function OfferPage() {
@@ -26,26 +29,20 @@ function OfferPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const authorizationStatus = useSelector((state: RootState) => state.offers.authorizationStatus);
+
   useEffect(() => {
     if (id) {
       setLoading(true);
       setError(null);
 
       fetchOfferById(id)
-        .then((data) => {
-          setOffer(data);
-        })
-        .catch(() => {
-          setError('Could not fetch the offer details.');
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+        .then((data) => setOffer(data))
+        .catch(() => setError('Could not fetch the offer details.'))
+        .finally(() => setLoading(false));
 
       fetchComments(id)
-        .then((data) => {
-          setComments(data);
-        });
+        .then((data) => setComments(data));
 
       fetchNearbyOffers(id)
         .then((data) => {
@@ -55,7 +52,6 @@ function OfferPage() {
             lat: offerItem.location.latitude,
             long: offerItem.location.longitude
           })));
-          console.log(points);
         });
     }
   }, [id]);
@@ -124,7 +120,9 @@ function OfferPage() {
               </div>
               <section className="offer__reviews reviews">
                 <ReviewsList comments={comments} />
-                <CommentForm onSubmit={handleCommentSubmit} />
+                {authorizationStatus && (
+                  <CommentForm onSubmit={(comment, rating) => handleCommentSubmit(comment, rating, id as string, setComments)} />
+                )}
               </section>
             </div>
           </div>
