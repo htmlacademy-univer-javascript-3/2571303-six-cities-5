@@ -23,13 +23,13 @@ const api = createAPI();
 
 
 export const fetchOfferById = (offerId: string): Promise<Offer> =>
-  api.get<Offer>(`/six-cities/offers/${offerId}`)
+  api.get<Offer>(`/offers/${offerId}`)
     .then((response) => response.data);
 
 export const fetchNearbyOffers = (offerId: string): Promise<Offer[]> =>
-  api.get<Offer[]>(`/six-cities/offers/${offerId}/nearby`)
+  api.get<Offer[]>(`/offers/${offerId}/nearby`)
     .then((response) => response.data);
 
 export const fetchComments = (offerId: string): Promise<Comment[]> =>
-  api.get<Comment[]>(`/six-cities/comments/${offerId}`)
+  api.get<Comment[]>(`/comments/${offerId}`)
     .then((response) => response.data);

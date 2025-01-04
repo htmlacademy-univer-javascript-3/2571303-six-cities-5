@@ -1,14 +1,16 @@
-import { Navigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams, Navigate } from 'react-router-dom';
 import { AppRoute } from '../../consts';
 import { Offer } from '../../types/offer';
 import CommentForm from '../../components/comment-form/comment-form';
 import HostInfo from '../../components/host-info/host-info';
 import { CITY, OFFER_COORDINATES } from '../../mocks/points';
 import MapComponent from '../../components/map/map-component';
-import ReviewList from '../../components/reviews-list/reviews-list.tsx';
-import { REVIEWS } from '../../mocks/reviews';
-import Header from '../../components/header/header.tsx';
-import NearOffersList from '../../components/near-offers-list/near-offers-list.tsx';
+import ReviewsList from '../../components/reviews-list/reviews-list';
+import Header from '../../components/header/header';
+import NearOffersList from '../../components/near-offers-list/near-offers-list';
+import { fetchComments } from '../../api/api';
+import { Comment } from '../../types/comment.ts';
 
 type OfferPageProps = {
   offers: Offer[];
@@ -20,8 +22,26 @@ const handleCommentSubmit = (comment: string, rating: number) => {
 
 function OfferPage({ offers }: OfferPageProps) {
   const { id } = useParams<{ id: string }>();
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
   const offer = offers.find((p) => p.id === id);
   const nearbyOffers = offers.slice(0, 3);
+
+  useEffect(() => {
+    if (id) {
+      fetchComments(id)
+        .then((data) => {
+          setComments(data);
+          setLoading(false);
+        })
+        .catch(() => {
+          setError('Failed to load comments');
+          setLoading(false);
+        });
+    }
+  }, [id]);
 
   if (!offer) {
     return <Navigate to={AppRoute.NotFound} />;
@@ -30,7 +50,7 @@ function OfferPage({ offers }: OfferPageProps) {
   const features = offer.features || [];
   return (
     <div className="page">
-      <Header/>
+      <Header />
       <main className="page__main page__main--offer">
         <section className="offer">
           <div className="offer__gallery-container container">
@@ -58,7 +78,7 @@ function OfferPage({ offers }: OfferPageProps) {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: `${(offer.rating / 5) * 100}%` }}></span>
+                  <span style={{ width: `${offer.rating * 20}%` }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offer.rating}</span>
@@ -86,7 +106,7 @@ function OfferPage({ offers }: OfferPageProps) {
                 <HostInfo host={offer.host} description={offer.description} />
               </div>
               <section className="offer__reviews reviews">
-                <ReviewList reviews={REVIEWS} />
+                <ReviewsList comments={comments} />
                 <CommentForm onSubmit={handleCommentSubmit} />
               </section>
             </div>
