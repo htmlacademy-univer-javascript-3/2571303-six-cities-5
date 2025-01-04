@@ -1,6 +1,6 @@
 type Host = {
   name: string;
-  avatar: string;
+  avatarUrl: string;
   isPro: boolean;
 };
 
@@ -15,7 +15,7 @@ export type Offer = {
   previewImage: string;
   description: string;
   host: Host;
-  features: string[];
+  goods: string[];
   maxAdults: number;
   city: {
     name: string;
@@ -29,6 +29,7 @@ export type Offer = {
     latitude: number;
     longitude: number;
   };
+  images?: string[];
 };
 
 export type Point = {

@@ -9,61 +9,67 @@ import MapComponent from '../../components/map/map-component';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Header from '../../components/header/header';
 import NearOffersList from '../../components/near-offers-list/near-offers-list';
-import { fetchComments, fetchNearbyOffers } from '../../api/api';
+import { fetchComments, fetchNearbyOffers, fetchOfferById } from '../../api/api';
 import { Comment } from '../../types/comment.ts';
-
-type OfferPageProps = {
-  offers: Offer[];
-};
+import Spinner from '../../components/spinner/spinner';
+import PhotoGallery from '../../components/photo-gallery/photo-gallery.tsx';
 
 const handleCommentSubmit = (comment: string, rating: number) => {
   console.log(`New comment: ${comment} with rating: ${rating}`);
 };
 
-function OfferPage({ offers }: OfferPageProps) {
+function OfferPage() {
   const { id } = useParams<{ id: string }>();
+  const [offer, setOffer] = useState<Offer | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [nearbyOffers, setNearbyOffers] = useState<Offer[]>([]);
-
-  const offer = offers.find((p) => p.id === id);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) {
+      setLoading(true);
+      setError(null);
+
+      fetchOfferById(id)
+        .then((data) => {
+          setOffer(data);
+        })
+        .catch(() => {
+          setError('Could not fetch the offer details.');
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+
       fetchComments(id)
         .then((data) => {
           setComments(data);
-        })
-        .catch((error) => {
-          console.error('Failed to load comments', error);
         });
 
       fetchNearbyOffers(id)
         .then((data) => {
           setNearbyOffers(data);
-        })
-        .catch((error) => {
-          console.error('Failed to load nearby offers', error);
         });
     }
   }, [id]);
 
-  if (!offer) {
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (error || !offer) {
     return <Navigate to={AppRoute.NotFound} />;
   }
 
-  const features = offer.features || [];
+  const features = offer.goods || [];
+  const images = offer.images || [];
   return (
     <div className="page">
       <Header />
       <main className="page__main page__main--offer">
         <section className="offer">
-          <div className="offer__gallery-container container">
-            <div className="offer__gallery">
-              <div key={offer.id} className="offer__image-wrapper">
-                <img className="offer__image" src={offer.previewImage} alt="Photo studio" />
-              </div>
-            </div>
-          </div>
+          <PhotoGallery images={images} />
           <div className="offer__container container">
             <div className="offer__wrapper">
               {offer.isPremium && (

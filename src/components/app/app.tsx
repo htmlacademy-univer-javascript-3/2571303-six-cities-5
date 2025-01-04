@@ -32,7 +32,7 @@ function App() {
         />
         <Route
           path={AppRoute.Offer}
-          element={<OfferPage offers={offers}/>}
+          element={<OfferPage/>}
         />
         <Route
           path="*"
