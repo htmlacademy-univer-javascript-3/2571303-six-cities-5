@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../consts.ts';
+import {Offer} from '../types/offer.ts';
 
 export const createAPI = () => {
   const instance = axios.create({
@@ -17,3 +18,22 @@ export const createAPI = () => {
 
   return instance;
 };
+
+const api = createAPI();
+
+
+export const fetchOfferById = (offerId: string): Promise<Offer> =>
+  api.get<Offer>(`/offers/${offerId}`)
+    .then((response) => response.data);
+
+export const fetchNearbyOffers = (offerId: string): Promise<Offer[]> =>
+  api.get<Offer[]>(`/offers/${offerId}/nearby`)
+    .then((response) => response.data);
+
+export const fetchComments = (offerId: string): Promise<Comment[]> =>
+  api.get<Comment[]>(`/comments/${offerId}`)
+    .then((response) => response.data);
+
+export const postComment = (offerId: string, commentData: { comment: string; rating: number }): Promise<Comment> =>
+  api.post<Comment>(`/comments/${offerId}`, commentData)
+    .then((response) => response.data);

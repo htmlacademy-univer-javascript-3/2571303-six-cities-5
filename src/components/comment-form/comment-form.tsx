@@ -21,12 +21,10 @@ function CommentForm({ onSubmit }: CommentFormProps) {
     event.preventDefault();
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      onSubmit(comment, rating);
-      setComment('');
-      setRating(0);
-      setIsSubmitting(false);
-    }, 1000);
+    onSubmit(comment, rating);
+    setComment('');
+    setRating(0);
+    setIsSubmitting(false);
   };
 
   return (

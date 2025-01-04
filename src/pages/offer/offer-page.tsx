@@ -1,45 +1,78 @@
-import { Navigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { fetchComments, fetchNearbyOffers, fetchOfferById, postComment } from '../../api/api';
 import { AppRoute } from '../../consts';
-import { Offer } from '../../types/offer';
+import { Offer, Point } from '../../types/offer';
 import CommentForm from '../../components/comment-form/comment-form';
 import HostInfo from '../../components/host-info/host-info';
-import { CITY, OFFER_COORDINATES } from '../../mocks/points';
 import MapComponent from '../../components/map/map-component';
-import ReviewList from '../../components/reviews-list/reviews-list.tsx';
-import { REVIEWS } from '../../mocks/reviews';
-import Header from '../../components/header/header.tsx';
-import NearOffersList from '../../components/near-offers-list/near-offers-list.tsx';
+import ReviewsList from '../../components/reviews-list/reviews-list';
+import Header from '../../components/header/header';
+import NearOffersList from '../../components/near-offers-list/near-offers-list';
+import Spinner from '../../components/spinner/spinner';
+import PhotoGallery from '../../components/photo-gallery/photo-gallery';
+import { RootState } from '../../store';
 
-type OfferPageProps = {
-  offers: Offer[];
+const handleCommentSubmit = (comment: string, rating: number, offerId: string, setComments: React.Dispatch<React.SetStateAction<Comment[]>>) => {
+  postComment(offerId, { comment, rating }).then((newComment) => {
+    setComments((prevComments) => [...prevComments, newComment]);
+  });
 };
 
-const handleCommentSubmit = (comment: string, rating: number) => {
-  console.log(`New comment: ${comment} with rating: ${rating}`);
-};
-
-function OfferPage({ offers }: OfferPageProps) {
+function OfferPage() {
   const { id } = useParams<{ id: string }>();
-  const offer = offers.find((p) => p.id === id);
-  const nearbyOffers = offers.slice(0, 3);
+  const [offer, setOffer] = useState<Offer | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [nearbyOffers, setNearbyOffers] = useState<Offer[]>([]);
+  const [points, setPoints] = useState<Point[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!offer) {
+  const authorizationStatus = useSelector((state: RootState) => state.offers.authorizationStatus);
+
+  useEffect(() => {
+    if (id) {
+      setLoading(true);
+      setError(null);
+
+      fetchOfferById(id)
+        .then((data) => setOffer(data))
+        .catch(() => setError('Could not fetch the offer details.'))
+        .finally(() => setLoading(false));
+
+      fetchComments(id)
+        .then((data) => setComments(data));
+
+      fetchNearbyOffers(id)
+        .then((data) => {
+          setNearbyOffers(data);
+          setPoints(data.map((offerItem) => ({
+            title: offerItem.title,
+            lat: offerItem.location.latitude,
+            long: offerItem.location.longitude
+          })));
+        });
+    }
+  }, [id]);
+
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (error || !offer) {
     return <Navigate to={AppRoute.NotFound} />;
   }
 
-  const features = offer.features || [];
+  const features = offer.goods || [];
+  const images = offer.images || [];
+
   return (
     <div className="page">
-      <Header/>
+      <Header />
       <main className="page__main page__main--offer">
         <section className="offer">
-          <div className="offer__gallery-container container">
-            <div className="offer__gallery">
-              <div key={offer.id} className="offer__image-wrapper">
-                <img className="offer__image" src={offer.previewImage} alt="Photo studio" />
-              </div>
-            </div>
-          </div>
+          <PhotoGallery images={images} />
           <div className="offer__container container">
             <div className="offer__wrapper">
               {offer.isPremium && (
@@ -58,7 +91,7 @@ function OfferPage({ offers }: OfferPageProps) {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: `${(offer.rating / 5) * 100}%` }}></span>
+                  <span style={{ width: `${offer.rating * 20}%` }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offer.rating}</span>
@@ -86,13 +119,15 @@ function OfferPage({ offers }: OfferPageProps) {
                 <HostInfo host={offer.host} description={offer.description} />
               </div>
               <section className="offer__reviews reviews">
-                <ReviewList reviews={REVIEWS} />
-                <CommentForm onSubmit={handleCommentSubmit} />
+                <ReviewsList comments={comments} />
+                {authorizationStatus && (
+                  <CommentForm onSubmit={(comment, rating) => handleCommentSubmit(comment, rating, id as string, setComments)} />
+                )}
               </section>
             </div>
           </div>
           <section className="offer__map map">
-            <MapComponent city={CITY} points={OFFER_COORDINATES} selectedPoint={undefined} />
+            <MapComponent city={offer.city} points={points} selectedPoint={undefined} />
           </section>
         </section>
         <div className="container">
