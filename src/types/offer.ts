@@ -45,8 +45,3 @@ export type City = {
     zoom: number;
   };
 };
-
-export type OfferCoordinates = {
-  city: string;
-  points: Point[];
-};

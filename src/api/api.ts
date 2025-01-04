@@ -17,3 +17,17 @@ export const createAPI = () => {
 
   return instance;
 };
+
+const api = createAPI();
+
+export const fetchOfferById = (offerId: string) => {
+  return api.get(`/six-cities/offers/${offerId}`);
+};
+
+export const fetchNearbyOffers = (offerId: string) => {
+  return api.get(`/six-cities/offers/${offerId}/nearby`);
+};
+
+export const fetchComments = (offerId: string) => {
+  return api.get(`/six-cities/comments/${offerId}`);
+};
