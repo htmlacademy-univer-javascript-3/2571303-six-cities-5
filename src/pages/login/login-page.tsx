@@ -10,7 +10,7 @@ function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const error = useSelector((state: RootState) => state.offers.error);
-  const authorizationStatus = useSelector((state: RootState) => state.offers.authorizationStatus);
+  const authorizationStatus = useSelector((state: RootState) => state.auth.authorizationStatus);
 
   const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

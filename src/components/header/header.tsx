@@ -6,7 +6,7 @@ import {logout} from '../../store/action.ts';
 
 function Header() {
   const dispatch = useDispatch();
-  const authorizationStatus = useSelector((state: RootState) => state.offers.authorizationStatus);
+  const authorizationStatus = useSelector((state: RootState) => state.auth.authorizationStatus);
 
   const handleSignOutClick = () => {
     dispatch(logout());

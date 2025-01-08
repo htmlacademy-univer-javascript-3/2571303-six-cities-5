@@ -1,13 +1,13 @@
 import { createAction } from '@reduxjs/toolkit';
 import { AppDispatch, ThunkExtraArgument } from './index';
 import { Offer, City } from '../types/offer.ts';
-import {setAuthorizationStatus, setCity, setOffers} from './reducer.ts';
 import axios from 'axios';
 import {User} from '../types/user.ts';
+import {setCity, setOffers} from './slices/offersSlice.ts';
+import {setAuthorizationStatus} from './slices/authSlice.ts';
 
 export const setLoading = createAction<boolean>('offers/setLoading');
 export const setError = createAction<string | null>('offers/setError');
-export const setAllOffers = createAction<Offer[]>('offers/setAllOffers');
 
 export const fetchOffersByCity = (city: City) => async (dispatch: AppDispatch, _getState: never, axiosInstance: ThunkExtraArgument) => {
   dispatch(setLoading(true));

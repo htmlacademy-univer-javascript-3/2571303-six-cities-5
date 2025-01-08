@@ -1,12 +1,11 @@
-import {City, Offer} from '../types/offer.ts';
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import { City, Offer } from '../../types/offer.ts';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface OffersState {
   city: City | null;
   offers: Offer[];
   loading: boolean;
   error: string | null;
-  authorizationStatus: boolean;
 }
 
 const initialState: OffersState = {
@@ -14,7 +13,6 @@ const initialState: OffersState = {
   offers: [],
   loading: false,
   error: null,
-  authorizationStatus: false,
 };
 
 const offersSlice = createSlice({
@@ -33,11 +31,8 @@ const offersSlice = createSlice({
     setError(state, action: PayloadAction<string | null>) {
       state.error = action.payload;
     },
-    setAuthorizationStatus(state, action: PayloadAction<boolean>) {
-      state.authorizationStatus = action.payload;
-    }
   },
 });
 
-export const { setCity, setOffers, setLoading, setError, setAuthorizationStatus } = offersSlice.actions;
+export const { setCity, setOffers, setLoading, setError } = offersSlice.actions;
 export default offersSlice.reducer;
