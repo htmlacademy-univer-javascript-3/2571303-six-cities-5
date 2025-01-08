@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_URL } from '../consts.ts';
 import {Offer} from '../types/offer.ts';
+import { Comment } from '../types/comment.ts';
 
 export const createAPI = () => {
   const instance = axios.create({
