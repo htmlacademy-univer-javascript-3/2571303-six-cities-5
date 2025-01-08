@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { changeFavoriteStatus } from '../../api/api';
+import {changeFavoriteStatus, fetchFavoriteOffers} from '../../api/api';
 import { Offer } from '../../types/offer';
+import {useDispatch} from 'react-redux';
+import {setFavoritesCount} from '../../store/slices/offers-slice.ts';
 
 type OfferCardProps = {
   offer: Offer;
@@ -11,13 +13,14 @@ type OfferCardProps = {
 function OfferCard({ offer, onHover }: OfferCardProps) {
   const { id, previewImage, price, title, type, rating, isPremium, isFavorite } = offer;
   const [favorite, setFavorite] = useState(isFavorite);
-
+  const dispatch = useDispatch();
   const handleMouseEnter = () => onHover(id);
   const handleMouseLeave = () => onHover(null);
 
   const handleBookmarkClick = async () => {
     const newStatus = favorite ? 0 : 1;
     await changeFavoriteStatus(id, newStatus);
+    fetchFavoriteOffers().then((offers) => dispatch(setFavoritesCount(offers.length)));
     setFavorite(!favorite);
   };
 

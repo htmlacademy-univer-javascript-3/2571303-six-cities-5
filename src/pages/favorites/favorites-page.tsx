@@ -5,6 +5,8 @@ import Header from '../../components/header/header.tsx';
 import Footer from '../../components/footer/footer.tsx';
 import { fetchFavoriteOffers } from '../../api/api.ts';
 import Spinner from '../../components/spinner/spinner.tsx';
+import {setFavoritesCount} from '../../store/slices/offers-slice.ts';
+import {useDispatch} from 'react-redux';
 
 type GroupedOffers = Record<string, Offer[]>;
 
@@ -24,13 +26,14 @@ function groupOffersByCity(offers: Offer[]): GroupedOffers {
 function FavoritesPage() {
   const [offers, setOffers] = useState<Offer[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const loadOffers = async () => {
       try {
         setIsLoading(true);
         const favoriteOffers = await fetchFavoriteOffers();
         setOffers(favoriteOffers);
+        dispatch(setFavoritesCount(favoriteOffers.length));
       } finally {
         setIsLoading(false);
       }

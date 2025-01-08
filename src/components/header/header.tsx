@@ -7,7 +7,7 @@ import {logout} from '../../store/actions/auth-action.ts';
 function Header() {
   const dispatch = useDispatch();
   const authorizationStatus = useSelector((state: RootState) => state.auth.authorizationStatus);
-
+  const favoritesCount = useSelector((state: RootState) => state.offers.favoritesCount);
   const handleSignOutClick = () => {
     dispatch(logout());
   };
@@ -37,7 +37,7 @@ function Header() {
                       <span className="header__user-name user__name">
                         Oliver.conner@gmail.com
                       </span>
-                      <span className="header__favorite-count">3</span>
+                      <span className="header__favorite-count">{favoritesCount}</span>
                     </Link>
                   </li>
                   <li className="header__nav-item">

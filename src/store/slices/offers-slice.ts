@@ -7,6 +7,7 @@ type OffersState = {
   city: City | null;
   loading: boolean;
   error: string | null;
+  favoritesCount: number;
 };
 
 const initialState: OffersState = {
@@ -14,6 +15,7 @@ const initialState: OffersState = {
   city: null,
   loading: false,
   error: null,
+  favoritesCount: 0,
 };
 
 const offersSlice = createSlice({
@@ -25,6 +27,9 @@ const offersSlice = createSlice({
     },
     setCity(state, action: PayloadAction<City>) {
       state.city = action.payload;
+    },
+    setFavoritesCount(state, action: PayloadAction<number>) {
+      state.favoritesCount = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -38,5 +43,5 @@ const offersSlice = createSlice({
   },
 });
 
-export const { setOffers, setCity } = offersSlice.actions;
+export const { setOffers, setCity, setFavoritesCount } = offersSlice.actions;
 export default offersSlice.reducer;
