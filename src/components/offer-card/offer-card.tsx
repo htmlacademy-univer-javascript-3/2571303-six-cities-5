@@ -1,19 +1,28 @@
-import {Link} from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import {changeFavoriteStatus, fetchFavoriteOffers} from '../../api/api';
+import { Offer } from '../../types/offer';
+import {useDispatch} from 'react-redux';
+import {setFavoritesCount} from '../../store/slices/offers-slice.ts';
 
 type OfferCardProps = {
-  id: string;
-  imageSrc: string;
-  price: number;
-  name: string;
-  placeType: string;
-  rating: string;
-  premium?: boolean;
+  offer: Offer;
   onHover: (offerId: string | null) => void;
-}
+};
 
-function OfferCard({id, imageSrc, price, name, placeType, rating, premium, onHover}: OfferCardProps) {
+function OfferCard({ offer, onHover }: OfferCardProps) {
+  const { id, previewImage, price, title, type, rating, isPremium, isFavorite } = offer;
+  const [favorite, setFavorite] = useState(isFavorite);
+  const dispatch = useDispatch();
   const handleMouseEnter = () => onHover(id);
   const handleMouseLeave = () => onHover(null);
+
+  const handleBookmarkClick = async () => {
+    const newStatus = favorite ? 0 : 1;
+    await changeFavoriteStatus(id, newStatus);
+    fetchFavoriteOffers().then((offers) => dispatch(setFavoritesCount(offers.length)));
+    setFavorite(!favorite);
+  };
 
   return (
     <article
@@ -21,14 +30,20 @@ function OfferCard({id, imageSrc, price, name, placeType, rating, premium, onHov
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {premium && (
+      {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
       )}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${id}`}>
-          <img className="place-card__image" src={imageSrc} width="260" height="200" alt="Place image" />
+          <img
+            className="place-card__image"
+            src={previewImage}
+            width="260"
+            height="200"
+            alt={`${title} image`}
+          />
         </Link>
       </div>
       <div className="place-card__info">
@@ -37,23 +52,31 @@ function OfferCard({id, imageSrc, price, name, placeType, rating, premium, onHov
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button
+            className={`place-card__bookmark-button button ${
+              favorite ? 'place-card__bookmark-button--active' : ''
+            }`}
+            type="button"
+            onClick={handleBookmarkClick}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden">
+              {favorite ? 'In bookmarks' : 'To bookmarks'}
+            </span>
           </button>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: rating }}></span>
+            <span style={{ width: `${rating * 20}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${id}`}>{name}</Link>
+          <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type">{placeType}</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );

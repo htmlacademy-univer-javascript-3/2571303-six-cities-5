@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../../store/action.ts';
 import { RootState } from '../../store';
+import {login} from '../../store/actions/auth-action.ts';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -10,7 +10,7 @@ function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const error = useSelector((state: RootState) => state.offers.error);
-  const authorizationStatus = useSelector((state: RootState) => state.offers.authorizationStatus);
+  const authorizationStatus = useSelector((state: RootState) => state.auth.authorizationStatus);
 
   const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

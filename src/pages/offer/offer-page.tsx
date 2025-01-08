@@ -29,7 +29,7 @@ function OfferPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const authorizationStatus = useSelector((state: RootState) => state.offers.authorizationStatus);
+  const authorizationStatus = useSelector((state: RootState) => state.auth.authorizationStatus);
 
   useEffect(() => {
     if (id) {
