@@ -9,7 +9,7 @@ export const createAPI = () => {
   });
 
   instance.interceptors.request.use((config) => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('six-cities-token');
     if (token) {
       config.headers['X-Token'] = token;
     }

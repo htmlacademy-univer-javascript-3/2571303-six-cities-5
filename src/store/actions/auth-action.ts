@@ -14,7 +14,7 @@ export const login = (email: string, password: string) => async (dispatch: AppDi
 
     if (response.status === 201) {
       const { token } = response.data;
-      localStorage.setItem('authToken', token);
+      localStorage.setItem('six-cities-token', token);
       dispatch(setAuthorizationStatus(true));
       dispatch(setAuthError(null));
     }
@@ -41,7 +41,7 @@ export const logout = () => async (dispatch: AppDispatch, _getState: never, axio
   try {
     const response = await axiosInstance.delete('/logout');
     if (response.status === 204) {
-      localStorage.removeItem('authToken');
+      localStorage.removeItem('six-cities-token');
       dispatch(setAuthorizationStatus(false));
       dispatch(setAuthError(null));
     }
