@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Offer } from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
-import SortingComponent from '../sorting/sorting-component';
+import SortingComponent from '../sorting-component/sorting-component';
 
 type OfferListProps = {
   offers: Offer[];
