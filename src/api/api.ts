@@ -39,5 +39,9 @@ export const postComment = (offerId: string, commentData: { comment: string; rat
     .then((response) => response.data);
 
 export const fetchFavoriteOffers = (): Promise<Offer[]> =>
-  api.get<Offer[]>('/six-cities/favorite')
+  api.get<Offer[]>('/favorite')
+    .then((response) => response.data);
+
+export const changeFavoriteStatus = (offerId: string, status: 0 | 1): Promise<Offer> =>
+  api.post<Offer>(`/favorite/${offerId}/${status}`)
     .then((response) => response.data);

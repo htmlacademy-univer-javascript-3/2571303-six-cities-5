@@ -1,7 +1,10 @@
+import { useEffect, useState } from 'react';
 import { Offer } from '../../types/offer.ts';
 import FavoriteLocationItem from '../../components/favorite-location-item/favorite-location-item.tsx';
 import Header from '../../components/header/header.tsx';
 import Footer from '../../components/footer/footer.tsx';
+import { fetchFavoriteOffers } from '../../api/api.ts';
+import Spinner from '../../components/spinner/spinner.tsx';
 
 type GroupedOffers = Record<string, Offer[]>;
 
@@ -18,13 +21,31 @@ function groupOffersByCity(offers: Offer[]): GroupedOffers {
   }, {} as GroupedOffers);
 }
 
-type FavoritesPageProps = {
-  offers: Offer[];
-}
+function FavoritesPage() {
+  const [offers, setOffers] = useState<Offer[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-function FavoritesPage({ offers }: FavoritesPageProps) {
+  useEffect(() => {
+    const loadOffers = async () => {
+      try {
+        setIsLoading(true);
+        const favoriteOffers = await fetchFavoriteOffers();
+        setOffers(favoriteOffers);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadOffers();
+  }, []);
+
   const groupedOffers = groupOffersByCity(offers);
 
+  if (isLoading) {
+    return (
+      <Spinner/>
+    );
+  }
   return (
     <div className="page">
       <Header />
@@ -42,7 +63,7 @@ function FavoritesPage({ offers }: FavoritesPageProps) {
           </section>
         </div>
       </main>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

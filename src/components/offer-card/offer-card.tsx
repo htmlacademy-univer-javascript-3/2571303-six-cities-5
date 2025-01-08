@@ -1,4 +1,6 @@
-import {Link} from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { changeFavoriteStatus } from '../../api/api';
 
 type OfferCardProps = {
   id: string;
@@ -9,11 +11,19 @@ type OfferCardProps = {
   rating: string;
   premium?: boolean;
   onHover: (offerId: string | null) => void;
-}
+};
 
-function OfferCard({id, imageSrc, price, name, placeType, rating, premium, onHover}: OfferCardProps) {
+function OfferCard({ id, imageSrc, price, name, placeType, rating, premium, onHover }: OfferCardProps) {
+  const [isFavorite, setIsFavorite] = useState(false);
+
   const handleMouseEnter = () => onHover(id);
   const handleMouseLeave = () => onHover(null);
+
+  const handleBookmarkClick = async () => {
+    const newStatus = isFavorite ? 0 : 1;
+    await changeFavoriteStatus(id, newStatus);
+    setIsFavorite(!isFavorite);
+  };
 
   return (
     <article
@@ -37,11 +47,17 @@ function OfferCard({id, imageSrc, price, name, placeType, rating, premium, onHov
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button
+            className={`place-card__bookmark-button button ${isFavorite ? 'place-card__bookmark-button--active' : ''}`}
+            type="button"
+            onClick={handleBookmarkClick}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden">
+              {isFavorite ? 'In bookmarks' : 'To bookmarks'}
+            </span>
           </button>
         </div>
         <div className="place-card__rating rating">

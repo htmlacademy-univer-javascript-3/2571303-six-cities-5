@@ -45,7 +45,7 @@ function OfferList({ offers, activeCity, onOfferHover }: OfferListProps) {
             price={offer.price}
             rating={`${offer.rating * 20}%`}
             premium={offer.isPremium}
-            onHover={onOfferHover} // Pass down the hover handler
+            onHover={onOfferHover}
           />
         ))}
       </div>
