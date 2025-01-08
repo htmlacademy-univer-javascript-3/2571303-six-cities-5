@@ -1,13 +1,13 @@
 import { useState, useMemo } from 'react';
-import { Offer } from '../../types/offer.ts';
-import OfferCard from '../offer-card/offer-card.tsx';
-import SortingComponent from '../sorting/sorting-component.tsx';
+import { Offer } from '../../types/offer';
+import OfferCard from '../offer-card/offer-card';
+import SortingComponent from '../sorting/sorting-component';
 
 type OfferListProps = {
   offers: Offer[];
   activeCity: string;
   onOfferHover: (offerId: string | null) => void;
-}
+};
 
 function OfferList({ offers, activeCity, onOfferHover }: OfferListProps) {
   const [sortOption, setSortOption] = useState<string>('Popular');
@@ -32,19 +32,15 @@ function OfferList({ offers, activeCity, onOfferHover }: OfferListProps) {
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
-      <b className="places__found">{sortedOffers.length} places to stay in {activeCity}</b>
+      <b className="places__found">
+        {sortedOffers.length} places to stay in {activeCity}
+      </b>
       <SortingComponent onSortChange={handleSortChange} />
       <div className="cities__places-list places__list tabs__content">
         {sortedOffers.map((offer) => (
           <OfferCard
             key={offer.id}
-            id={offer.id}
-            imageSrc={offer.previewImage}
-            name={offer.title}
-            placeType={offer.type}
-            price={offer.price}
-            rating={`${offer.rating * 20}%`}
-            premium={offer.isPremium}
+            offer={offer}
             onHover={onOfferHover}
           />
         ))}

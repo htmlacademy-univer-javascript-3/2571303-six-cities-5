@@ -1,28 +1,24 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { changeFavoriteStatus } from '../../api/api';
+import { Offer } from '../../types/offer';
 
 type OfferCardProps = {
-  id: string;
-  imageSrc: string;
-  price: number;
-  name: string;
-  placeType: string;
-  rating: string;
-  premium?: boolean;
+  offer: Offer;
   onHover: (offerId: string | null) => void;
 };
 
-function OfferCard({ id, imageSrc, price, name, placeType, rating, premium, onHover }: OfferCardProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
+function OfferCard({ offer, onHover }: OfferCardProps) {
+  const { id, previewImage, price, title, type, rating, isPremium, isFavorite } = offer;
+  const [favorite, setFavorite] = useState(isFavorite);
 
   const handleMouseEnter = () => onHover(id);
   const handleMouseLeave = () => onHover(null);
 
   const handleBookmarkClick = async () => {
-    const newStatus = isFavorite ? 0 : 1;
+    const newStatus = favorite ? 0 : 1;
     await changeFavoriteStatus(id, newStatus);
-    setIsFavorite(!isFavorite);
+    setFavorite(!favorite);
   };
 
   return (
@@ -31,14 +27,20 @@ function OfferCard({ id, imageSrc, price, name, placeType, rating, premium, onHo
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {premium && (
+      {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
       )}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${id}`}>
-          <img className="place-card__image" src={imageSrc} width="260" height="200" alt="Place image" />
+          <img
+            className="place-card__image"
+            src={previewImage}
+            width="260"
+            height="200"
+            alt={`${title} image`}
+          />
         </Link>
       </div>
       <div className="place-card__info">
@@ -48,7 +50,9 @@ function OfferCard({ id, imageSrc, price, name, placeType, rating, premium, onHo
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button button ${isFavorite ? 'place-card__bookmark-button--active' : ''}`}
+            className={`place-card__bookmark-button button ${
+              favorite ? 'place-card__bookmark-button--active' : ''
+            }`}
             type="button"
             onClick={handleBookmarkClick}
           >
@@ -56,20 +60,20 @@ function OfferCard({ id, imageSrc, price, name, placeType, rating, premium, onHo
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
             <span className="visually-hidden">
-              {isFavorite ? 'In bookmarks' : 'To bookmarks'}
+              {favorite ? 'In bookmarks' : 'To bookmarks'}
             </span>
           </button>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: rating }}></span>
+            <span style={{ width: `${rating * 20}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${id}`}>{name}</Link>
+          <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type">{placeType}</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );

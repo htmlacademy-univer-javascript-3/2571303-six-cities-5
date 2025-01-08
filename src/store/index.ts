@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import offersReducer from './slices/offers-slice.ts';
 import authReducer from './slices/auth-slice.ts';
+import favoriteOffersReducer from './slices/favorite-offers-slice.ts';
 import { createAPI } from '../api/api.ts';
 
 const axiosInstance = createAPI();
@@ -9,6 +10,7 @@ const store = configureStore({
   reducer: {
     offers: offersReducer,
     auth: authReducer,
+    favoriteOffers: favoriteOffersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
