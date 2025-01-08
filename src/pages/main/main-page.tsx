@@ -29,7 +29,7 @@ function MainPage({ offers }: MainPageProps) {
   };
 
   useEffect(() => {
-    const cityObject = {
+    const cityObject: City = {
       name: activeCity,
       location: {
         latitude: 0,

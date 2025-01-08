@@ -1,12 +1,19 @@
-import { createAction } from '@reduxjs/toolkit';
-import { AppDispatch, ThunkExtraArgument } from '../index';
-import { Offer, City } from '../../types/offer.ts';
-import { setCity, setOffers } from '../slices/offers-slice.ts';
+import {createAPI} from '../../api/api.ts';
+import {City, Offer} from '../../types/offer.ts';
+import {AppDispatch, RootState} from '../index.ts';
+import {setCity, setOffers} from '../slices/offers-slice.ts';
+import {createAction} from '@reduxjs/toolkit';
+
+export type ThunkExtraArgument = ReturnType<typeof createAPI>;
 
 export const setOffersLoading = createAction<boolean>('offers/setLoading');
 export const setOffersError = createAction<string | null>('offers/setError');
 
-export const fetchOffersByCity = (city: City) => async (dispatch: AppDispatch, _getState: never, axiosInstance: ThunkExtraArgument) => {
+export const fetchOffersByCity = (city: City) => async (
+  dispatch: AppDispatch,
+  _getState: () => RootState,
+  axiosInstance: ThunkExtraArgument
+): Promise<void> => {
   dispatch(setOffersLoading(true));
   try {
     const response = await axiosInstance.get<Offer[]>('/offers');
