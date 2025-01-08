@@ -39,7 +39,7 @@ function OfferPage() {
 
       fetchOfferById(id)
         .then((data) => setOffer(data))
-        .catch(() => setError('Could not fetch the offer details.'))
+        .catch(() => setError('Could not fetch the offer-page details.'))
         .finally(() => setLoading(false));
 
       fetchComments(id)
