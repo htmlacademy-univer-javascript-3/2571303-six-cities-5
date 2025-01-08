@@ -14,11 +14,16 @@ function FavoriteOfferCard({ offer }: FavoriteOfferCardProps) {
   const [favorite, setFavorite] = useState(isFavorite);
   const dispatch = useDispatch();
 
-  const handleBookmarkClick = async () => {
-    const newStatus = favorite ? 0 : 1;
-    await changeFavoriteStatus(id, newStatus);
-    fetchFavoriteOffers().then((offers) => dispatch(setFavoritesCount(offers.length)));
-    setFavorite(!favorite);
+  const handleBookmarkClick = () => {
+    void (async () => {
+      const newStatus = favorite ? 0 : 1;
+      await changeFavoriteStatus(id, newStatus);
+
+      const offers = await fetchFavoriteOffers();
+      dispatch(setFavoritesCount(offers.length));
+
+      setFavorite(!favorite);
+    })();
   };
 
   return (
