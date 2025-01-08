@@ -1,13 +1,15 @@
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { RootState } from '../../store';
 import { Link } from 'react-router-dom';
+import {logout} from '../../store/actions/auth-action.ts';
+
 
 function Header() {
-  const authorizationStatus = useSelector((state: RootState) => state.offers.authorizationStatus);
-
+  const dispatch = useDispatch();
+  const authorizationStatus = useSelector((state: RootState) => state.auth.authorizationStatus);
+  const favoritesCount = useSelector((state: RootState) => state.offers.favoritesCount);
   const handleSignOutClick = () => {
-    // eslint-disable-next-line no-console
-    console.log('User signed out');
+    dispatch(logout());
   };
 
   return (
@@ -30,12 +32,12 @@ function Header() {
               {authorizationStatus ? (
                 <>
                   <li className="header__nav-item user">
-                    <Link className="header__nav-link header__nav-link--profile" to="#">
+                    <Link className="header__nav-link header__nav-link--profile" to="/favorites">
                       <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                       <span className="header__user-name user__name">
                         Oliver.conner@gmail.com
                       </span>
-                      <span className="header__favorite-count">3</span>
+                      <span className="header__favorite-count">{favoritesCount}</span>
                     </Link>
                   </li>
                   <li className="header__nav-item">

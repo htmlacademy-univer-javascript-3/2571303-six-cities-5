@@ -26,7 +26,7 @@ function App() {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute>
-              <FavoritesPage offers={offers} />
+              <FavoritesPage/>
             </PrivateRoute>
           }
         />
