@@ -37,3 +37,7 @@ export const fetchComments = (offerId: string): Promise<Comment[]> =>
 export const postComment = (offerId: string, commentData: { comment: string; rating: number }): Promise<Comment> =>
   api.post<Comment>(`/comments/${offerId}`, commentData)
     .then((response) => response.data);
+
+export const fetchFavoriteOffers = (): Promise<Offer[]> =>
+  api.get<Offer[]>('/six-cities/favorite')
+    .then((response) => response.data);

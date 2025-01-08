@@ -1,6 +1,7 @@
 import { Offer } from '../../types/offer.ts';
 import FavoriteLocationItem from '../../components/favorite-location-item/favorite-location-item.tsx';
 import Header from '../../components/header/header.tsx';
+import Footer from '../../components/footer/footer.tsx';
 
 type GroupedOffers = Record<string, Offer[]>;
 
@@ -41,17 +42,7 @@ function FavoritesPage({ offers }: FavoritesPageProps) {
           </section>
         </div>
       </main>
-      <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
-          <img
-            className="footer__logo"
-            src="img/logo.svg"
-            alt="6 cities logo"
-            width="64"
-            height="33"
-          />
-        </a>
-      </footer>
+      <Footer/>
     </div>
   );
 }
