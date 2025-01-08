@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import {useState} from 'react';
+import {Link} from 'react-router-dom';
 import {changeFavoriteStatus, fetchFavoriteOffers} from '../../api/api';
-import { Offer } from '../../types/offer';
+import {Offer} from '../../types';
 import {useDispatch} from 'react-redux';
 import {setFavoritesCount} from '../../store/slices';
 import {AppDispatch} from '../../store';

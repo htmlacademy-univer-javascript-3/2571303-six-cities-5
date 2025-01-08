@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { Offer } from '../../types/offer';
+import {useMemo, useState} from 'react';
+import {Offer} from '../../types';
 import OfferCard from '../offer-card/offer-card';
 import SortingComponent from '../sorting-component/sorting-component';
 

@@ -1,4 +1,4 @@
-import { Offer } from '../../types/offer';
+import {Offer} from '../../types';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../consts.ts';
 

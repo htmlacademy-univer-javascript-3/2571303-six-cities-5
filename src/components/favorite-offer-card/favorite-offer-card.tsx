@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Offer } from '../../types/offer';
-import { useDispatch } from 'react-redux';
-import { changeFavoriteStatus, fetchFavoriteOffers } from '../../api/api';
-import { setFavoritesCount } from '../../store/slices';
+import {useState} from 'react';
+import {Link} from 'react-router-dom';
+import {Offer} from '../../types';
+import {useDispatch} from 'react-redux';
+import {changeFavoriteStatus, fetchFavoriteOffers} from '../../api/api';
+import {setFavoritesCount} from '../../store/slices';
 import {AppDispatch} from '../../store';
 
 type FavoriteOfferCardProps = {

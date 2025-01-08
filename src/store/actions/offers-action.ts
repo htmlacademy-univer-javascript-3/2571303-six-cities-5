@@ -1,5 +1,5 @@
 import {createAPI} from '../../api/api.ts';
-import {City, Offer} from '../../types/offer.ts';
+import {City, Offer} from '../../types';
 import {AppDispatch, RootState} from '../index.ts';
 import {setCity, setOffers} from '../slices';
 import {createAction} from '@reduxjs/toolkit';

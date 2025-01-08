@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import { setAuthError, setAuthLoading } from '../actions';
+import {setAuthError, setAuthLoading} from '../actions';
 
 type AuthState = {
   authorizationStatus: boolean;

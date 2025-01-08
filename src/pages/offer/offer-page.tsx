@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { fetchComments, fetchNearbyOffers, fetchOfferById, postComment } from '../../api/api';
-import { AppRoute } from '../../consts';
-import { Offer, Point } from '../../types/offer';
+import {useEffect, useState} from 'react';
+import {Navigate, useParams} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {fetchComments, fetchNearbyOffers, fetchOfferById, postComment} from '../../api/api';
+import {AppRoute} from '../../consts';
+import {Offer, Point} from '../../types';
 import CommentForm from '../../components/comment-form/comment-form';
 import HostInfo from '../../components/host-info/host-info';
 import MapComponent from '../../components/map/map-component';
@@ -12,8 +12,8 @@ import Header from '../../components/header/header';
 import NearOffersList from '../../components/near-offers-list/near-offers-list';
 import Spinner from '../../components/spinner/spinner';
 import PhotoGallery from '../../components/photo-gallery/photo-gallery';
-import { RootState } from '../../store';
-import { Comment } from '../../types/comment.ts';
+import {RootState} from '../../store';
+import {Comment} from '../../types';
 
 const handleCommentSubmit = (comment: string, rating: number, offerId: string, setComments: React.Dispatch<React.SetStateAction<Comment[]>>) => {
   postComment(offerId, { comment, rating }).then((newComment) => {

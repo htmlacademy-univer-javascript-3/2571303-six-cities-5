@@ -1,7 +1,7 @@
-import { configureStore, ThunkAction, AnyAction } from '@reduxjs/toolkit';
+import {AnyAction, configureStore, ThunkAction} from '@reduxjs/toolkit';
 import offersReducer from './slices/offers-slice.ts';
 import authReducer from './slices/auth-slice.ts';
-import { createAPI } from '../api/api.ts';
+import {createAPI} from '../api/api.ts';
 
 const axiosInstance = createAPI();
 

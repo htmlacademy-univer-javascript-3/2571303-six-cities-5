@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../store';
+import {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '../../store';
 import OfferList from '../../components/offer-list/offer-list';
 import MapComponent from '../../components/map/map-component';
 import CityList from '../../components/city-list/city-list';
-import { City, Offer } from '../../types/offer';
-import { CITIES } from '../../consts';
+import {City, Offer} from '../../types';
+import {CITIES} from '../../consts';
 import Header from '../../components/header/header';
 import Spinner from '../../components/spinner/spinner';
-import { fetchOffersByCity } from '../../store/actions';
+import {fetchOffersByCity} from '../../store/actions';
 
 type MainPageProps = {
   offers: Offer[];

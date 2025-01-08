@@ -1,7 +1,7 @@
-import { City, Point } from '../../types/offer.ts';
-import { useEffect, useRef } from 'react';
-import { Icon, layerGroup, Marker } from 'leaflet';
-import { URL_MARKER_ACTIVE, URL_MARKER_DEFAULT } from '../../consts.ts';
+import {City, Point} from '../../types';
+import {useEffect, useRef} from 'react';
+import {Icon, layerGroup, Marker} from 'leaflet';
+import {URL_MARKER_ACTIVE, URL_MARKER_DEFAULT} from '../../consts.ts';
 import useMap from '../hooks/use-map.tsx';
 import 'leaflet/dist/leaflet.css';
 

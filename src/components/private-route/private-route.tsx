@@ -1,6 +1,6 @@
-import { Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import {Navigate} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
 type PrivateRouteProps = {
   children: JSX.Element;

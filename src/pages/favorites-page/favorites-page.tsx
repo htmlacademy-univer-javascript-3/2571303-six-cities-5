@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { Offer } from '../../types/offer.ts';
+import {useEffect, useState} from 'react';
+import {Offer} from '../../types';
 import FavoriteLocationItem from '../../components/favorite-location-item/favorite-location-item.tsx';
 import Header from '../../components/header/header.tsx';
 import Footer from '../../components/footer/footer.tsx';
 import Spinner from '../../components/spinner/spinner.tsx';
-import { fetchFavoriteOffers } from '../../api/api.ts';
-import { setFavoritesCount } from '../../store/slices';
+import {fetchFavoriteOffers} from '../../api/api.ts';
+import {setFavoritesCount} from '../../store/slices';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../store';
 

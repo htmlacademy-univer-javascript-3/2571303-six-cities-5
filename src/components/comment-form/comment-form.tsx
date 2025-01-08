@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 type CommentFormProps = {
   onSubmit: (comment: string, rating: number) => void;
