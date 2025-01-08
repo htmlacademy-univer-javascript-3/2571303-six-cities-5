@@ -7,7 +7,6 @@ import MapComponent from '../../components/map/map-component';
 import CityList from '../../components/city-list/city-list';
 import { City, Offer } from '../../types/offer.ts';
 import { CITIES } from '../../consts.ts';
-import { CITY } from '../../mocks/points.ts';
 import Header from '../../components/header/header.tsx';
 import Spinner from '../../components/spinner/spinner.tsx';
 
@@ -18,6 +17,8 @@ type MainPageProps = {
 function MainPage({ offers }: MainPageProps) {
   const [activeCity, setActiveCity] = useState(CITIES[0]);
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
+  const dispatch: AppDispatch = useDispatch();
+  const loading = useSelector((state: RootState) => state.offers.loading);
 
   const handleCityClick = (city: string) => {
     setActiveCity(city);
@@ -27,28 +28,36 @@ function MainPage({ offers }: MainPageProps) {
     setHoveredOfferId(offerId);
   };
 
-  const dispatch: AppDispatch = useDispatch();
-  const loading = useSelector((state: RootState) => state.offers.loading);
-
   useEffect(() => {
     const cityObject: City = {
       name: activeCity,
       location: {
-        latitude: offers.length ? offers[0].city.location.latitude : 48.8566,
-        longitude: offers.length ? offers[0].city.location.longitude : 2.3522,
-        zoom: 12,
+        latitude: offers.length ? offers[0].city.location.latitude : 0,
+        longitude: offers.length ? offers[0].city.location.longitude : 0,
+        zoom: offers.length ? offers[0].city.location.zoom : 12,
       },
     };
+
     dispatch(fetchOffersByCity(cityObject));
   }, [activeCity]);
 
   const offerCoordinates = offers.map((offer) => ({
     title: offer.title,
-    lat: offer.city.location.latitude,
-    long: offer.city.location.longitude,
+    lat: offer.location.latitude,
+    long: offer.location.longitude,
     id: offer.id,
   }));
+
   const selectedPoint = offerCoordinates.find((point) => point.id === hoveredOfferId);
+
+  const cityForMap: City = {
+    name: activeCity,
+    location: {
+      latitude: offers.length ? offers[0].city.location.latitude : 0,
+      longitude: offers.length ? offers[0].city.location.longitude : 0,
+      zoom: 12,
+    },
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -63,7 +72,7 @@ function MainPage({ offers }: MainPageProps) {
               <OfferList offers={offers} activeCity={activeCity} onOfferHover={handleOfferHover} />
               <div className="cities__right-section">
                 <section className="cities__map map">
-                  <MapComponent city={CITY} points={offerCoordinates} selectedPoint={selectedPoint} />
+                  <MapComponent city={cityForMap} points={offerCoordinates} selectedPoint={selectedPoint} />
                 </section>
               </div>
             </div>
