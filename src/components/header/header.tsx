@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from 'react-redux';
 import { RootState } from '../../store';
 import { Link } from 'react-router-dom';
-import {logout} from '../../store/action.ts';
+import {logout} from '../../store/actions/auth-action.ts';
 
 
 function Header() {

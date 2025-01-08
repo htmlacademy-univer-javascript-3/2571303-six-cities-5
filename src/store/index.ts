@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import offersReducer from './slices/offersSlice.ts';
-import authReducer from './slices/authSlice.ts';
+import offersReducer from './slices/offers-slice.ts';
+import authReducer from './slices/auth-slice.ts';
 import { createAPI } from '../api/api.ts';
 
 const axiosInstance = createAPI();

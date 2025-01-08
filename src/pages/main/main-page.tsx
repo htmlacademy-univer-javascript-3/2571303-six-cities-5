@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
-import { fetchOffersByCity } from '../../store/action.ts';
 import OfferList from '../../components/offer-list/offer-list';
 import MapComponent from '../../components/map/map-component';
 import CityList from '../../components/city-list/city-list';
@@ -9,6 +8,7 @@ import { City, Offer } from '../../types/offer.ts';
 import { CITIES } from '../../consts.ts';
 import Header from '../../components/header/header.tsx';
 import Spinner from '../../components/spinner/spinner.tsx';
+import {fetchOffersByCity} from '../../store/actions/offers-action.ts';
 
 type MainPageProps = {
   offers: Offer[];
