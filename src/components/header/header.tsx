@@ -1,13 +1,15 @@
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { RootState } from '../../store';
 import { Link } from 'react-router-dom';
+import {logout} from '../../store/action.ts';
+
 
 function Header() {
+  const dispatch = useDispatch();
   const authorizationStatus = useSelector((state: RootState) => state.offers.authorizationStatus);
 
   const handleSignOutClick = () => {
-    // eslint-disable-next-line no-console
-    console.log('User signed out');
+    dispatch(logout());
   };
 
   return (

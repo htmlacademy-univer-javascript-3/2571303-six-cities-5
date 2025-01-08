@@ -54,3 +54,21 @@ export const login = (email: string, password: string) => async (dispatch: AppDi
     }
   }
 };
+
+export const logout = () => async (dispatch: AppDispatch, _getState: never, axiosInstance: ThunkExtraArgument) => {
+  try {
+    const response = await axiosInstance.delete('/logout');
+    if (response.status === 204) {
+      localStorage.removeItem('authToken');
+      dispatch(setAuthorizationStatus(false));
+      dispatch(setOffers([]));
+      dispatch(setError(null));
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      dispatch(setError('Failed to log out.'));
+    } else {
+      dispatch(setError('Network error'));
+    }
+  }
+};
