@@ -1,4 +1,6 @@
 import { Offer } from '../../types/offer';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../consts.ts';
 
 type NearOfferCardProps = {
   offer: Offer;
@@ -12,9 +14,9 @@ function NearOfferCard({ offer }: NearOfferCardProps) {
           <span>Premium</span>
         </div>}
       <div className="near-places__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={AppRoute.Root}>
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt={offer.title} />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -36,7 +38,7 @@ function NearOfferCard({ offer }: NearOfferCardProps) {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{offer.title}</a>
+          <Link to={AppRoute.Root}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
