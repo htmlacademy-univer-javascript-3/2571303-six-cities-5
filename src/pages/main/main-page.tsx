@@ -8,7 +8,7 @@ import { City, Offer } from '../../types/offer';
 import { CITIES } from '../../consts';
 import Header from '../../components/header/header';
 import Spinner from '../../components/spinner/spinner';
-import { fetchOffersByCity } from '../../store/actions/offers-action';
+import { fetchOffersByCity } from '../../store/actions';
 
 type MainPageProps = {
   offers: Offer[];

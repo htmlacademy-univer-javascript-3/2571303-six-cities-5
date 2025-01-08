@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import {AppDispatch, RootState, ThunkExtraArgument} from '../index';
 import axios from 'axios';
 import { User } from '../../types/user.ts';
-import { setAuthorizationStatus } from '../slices/auth-slice.ts';
+import { setAuthorizationStatus } from '../slices';
 
 export const setAuthLoading = createAction<boolean>('auth/setLoading');
 export const setAuthError = createAction<string | null>('auth/setError');

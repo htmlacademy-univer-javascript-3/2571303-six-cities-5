@@ -5,7 +5,7 @@ import Header from '../../components/header/header.tsx';
 import Footer from '../../components/footer/footer.tsx';
 import Spinner from '../../components/spinner/spinner.tsx';
 import { fetchFavoriteOffers } from '../../api/api.ts';
-import { setFavoritesCount } from '../../store/slices/offers-slice.ts';
+import { setFavoritesCount } from '../../store/slices';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../store';
 

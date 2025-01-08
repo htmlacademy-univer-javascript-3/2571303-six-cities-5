@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import {AppDispatch, RootState} from '../../store';
-import {login} from '../../store/actions/auth-action.ts';
+import {login} from '../../store/actions';
 
 function LoginPage() {
   const [email, setEmail] = useState('');

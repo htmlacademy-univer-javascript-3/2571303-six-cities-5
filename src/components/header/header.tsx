@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../store';
 import { Link } from 'react-router-dom';
-import {logout} from '../../store/actions/auth-action.ts';
+import {logout} from '../../store/actions';
 
 
 function Header() {

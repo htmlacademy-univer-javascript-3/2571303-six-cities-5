@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import { City, Offer } from '../../types/offer.ts';
-import { setOffersError, setOffersLoading } from '../actions/offers-action.ts';
+import { setOffersError, setOffersLoading } from '../actions';
 
 type OffersState = {
   offers: Offer[];
