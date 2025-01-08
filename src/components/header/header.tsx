@@ -1,11 +1,11 @@
 import {useDispatch, useSelector} from 'react-redux';
-import { RootState } from '../../store';
+import {AppDispatch, RootState} from '../../store';
 import { Link } from 'react-router-dom';
 import {logout} from '../../store/actions/auth-action.ts';
 
 
 function Header() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const authorizationStatus = useSelector((state: RootState) => state.auth.authorizationStatus);
   const favoritesCount = useSelector((state: RootState) => state.offers.favoritesCount);
   const handleSignOutClick = () => {

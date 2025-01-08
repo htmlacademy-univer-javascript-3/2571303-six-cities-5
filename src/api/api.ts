@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_URL } from '../consts.ts';
 import {Offer} from '../types/offer.ts';
+import { Comment } from '../types/comment.ts';
 
 export const createAPI = () => {
   const instance = axios.create({
@@ -9,7 +10,7 @@ export const createAPI = () => {
   });
 
   instance.interceptors.request.use((config) => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('six-cities-token');
     if (token) {
       config.headers['X-Token'] = token;
     }

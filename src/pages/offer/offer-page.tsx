@@ -13,6 +13,7 @@ import NearOffersList from '../../components/near-offers-list/near-offers-list';
 import Spinner from '../../components/spinner/spinner';
 import PhotoGallery from '../../components/photo-gallery/photo-gallery';
 import { RootState } from '../../store';
+import { Comment } from '../../types/comment.ts';
 
 const handleCommentSubmit = (comment: string, rating: number, offerId: string, setComments: React.Dispatch<React.SetStateAction<Comment[]>>) => {
   postComment(offerId, { comment, rating }).then((newComment) => {

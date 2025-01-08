@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { AppDispatch, ThunkExtraArgument } from '../index';
+import {AppDispatch, RootState, ThunkExtraArgument} from '../index';
 import axios from 'axios';
 import { User } from '../../types/user.ts';
 import { setAuthorizationStatus } from '../slices/auth-slice.ts';
@@ -7,14 +7,19 @@ import { setAuthorizationStatus } from '../slices/auth-slice.ts';
 export const setAuthLoading = createAction<boolean>('auth/setLoading');
 export const setAuthError = createAction<string | null>('auth/setError');
 
-export const login = (email: string, password: string) => async (dispatch: AppDispatch, _getState: never, axiosInstance: ThunkExtraArgument) => {
+
+export const login = (email: string, password: string) => async (
+  dispatch: AppDispatch,
+  _getState: () => RootState,
+  axiosInstance: ThunkExtraArgument
+): Promise<void> => {
   dispatch(setAuthLoading(true));
   try {
     const response = await axiosInstance.post<User>('/login', { email, password });
 
     if (response.status === 201) {
       const { token } = response.data;
-      localStorage.setItem('authToken', token);
+      localStorage.setItem('six-cities-token', token);
       dispatch(setAuthorizationStatus(true));
       dispatch(setAuthError(null));
     }
@@ -36,12 +41,16 @@ export const login = (email: string, password: string) => async (dispatch: AppDi
   }
 };
 
-export const logout = () => async (dispatch: AppDispatch, _getState: never, axiosInstance: ThunkExtraArgument) => {
+export const logout = () => async (
+  dispatch: AppDispatch,
+  _getState: () => RootState,
+  axiosInstance: ThunkExtraArgument
+): Promise<void> => {
   dispatch(setAuthLoading(true));
   try {
     const response = await axiosInstance.delete('/logout');
     if (response.status === 204) {
-      localStorage.removeItem('authToken');
+      localStorage.removeItem('six-cities-token');
       dispatch(setAuthorizationStatus(false));
       dispatch(setAuthError(null));
     }

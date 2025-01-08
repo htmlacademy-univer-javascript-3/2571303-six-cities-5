@@ -4,11 +4,11 @@ import { AppDispatch, RootState } from '../../store';
 import OfferList from '../../components/offer-list/offer-list';
 import MapComponent from '../../components/map/map-component';
 import CityList from '../../components/city-list/city-list';
-import { City, Offer } from '../../types/offer.ts';
-import { CITIES } from '../../consts.ts';
-import Header from '../../components/header/header.tsx';
-import Spinner from '../../components/spinner/spinner.tsx';
-import {fetchOffersByCity} from '../../store/actions/offers-action.ts';
+import { City, Offer } from '../../types/offer';
+import { CITIES } from '../../consts';
+import Header from '../../components/header/header';
+import Spinner from '../../components/spinner/spinner';
+import { fetchOffersByCity } from '../../store/actions/offers-action';
 
 type MainPageProps = {
   offers: Offer[];
@@ -32,14 +32,14 @@ function MainPage({ offers }: MainPageProps) {
     const cityObject: City = {
       name: activeCity,
       location: {
-        latitude: offers.length ? offers[0].city.location.latitude : 0,
-        longitude: offers.length ? offers[0].city.location.longitude : 0,
-        zoom: offers.length ? offers[0].city.location.zoom : 12,
+        latitude: 0,
+        longitude: 0,
+        zoom: 12,
       },
     };
 
     dispatch(fetchOffersByCity(cityObject));
-  }, [activeCity]);
+  }, [activeCity, dispatch]);
 
   const offerCoordinates = offers.map((offer) => ({
     title: offer.title,

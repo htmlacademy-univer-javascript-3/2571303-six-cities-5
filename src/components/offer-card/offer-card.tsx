@@ -4,6 +4,7 @@ import {changeFavoriteStatus, fetchFavoriteOffers} from '../../api/api';
 import { Offer } from '../../types/offer';
 import {useDispatch} from 'react-redux';
 import {setFavoritesCount} from '../../store/slices/offers-slice.ts';
+import {AppDispatch} from '../../store';
 
 type OfferCardProps = {
   offer: Offer;
@@ -13,15 +14,19 @@ type OfferCardProps = {
 function OfferCard({ offer, onHover }: OfferCardProps) {
   const { id, previewImage, price, title, type, rating, isPremium, isFavorite } = offer;
   const [favorite, setFavorite] = useState(isFavorite);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const handleMouseEnter = () => onHover(id);
   const handleMouseLeave = () => onHover(null);
+  const handleBookmarkClick = () => {
+    void (async () => {
+      const newStatus = favorite ? 0 : 1;
+      await changeFavoriteStatus(id, newStatus);
 
-  const handleBookmarkClick = async () => {
-    const newStatus = favorite ? 0 : 1;
-    await changeFavoriteStatus(id, newStatus);
-    fetchFavoriteOffers().then((offers) => dispatch(setFavoritesCount(offers.length)));
-    setFavorite(!favorite);
+      const offers = await fetchFavoriteOffers();
+      dispatch(setFavoritesCount(offers.length));
+
+      setFavorite(!favorite);
+    })();
   };
 
   return (
