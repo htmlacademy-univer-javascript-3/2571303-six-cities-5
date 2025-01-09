@@ -14,6 +14,7 @@ import Spinner from '../../components/spinner/spinner';
 import PhotoGallery from '../../components/photo-gallery/photo-gallery';
 import {RootState} from '../../store';
 import {Comment} from '../../types';
+import BookmarkButtonBig from '../../components/bookmark-button-big/bookmark-button-big.tsx';
 
 const getPluralizedText = (count: number, singular: string, plural: string): string => `${count} ${count === 1 ? singular : plural}`;
 
@@ -91,12 +92,15 @@ function OfferPage() {
               )}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{offer.title}</h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <BookmarkButtonBig
+                  offerId={offer.id}
+                  isFavorite={offer.isFavorite}
+                  onToggleFavorite={(newFavoriteStatus) => {
+                    setOffer((prevOffer) =>
+                      prevOffer ? { ...prevOffer, isFavorite: newFavoriteStatus } : prevOffer
+                    );
+                  }}
+                />
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
