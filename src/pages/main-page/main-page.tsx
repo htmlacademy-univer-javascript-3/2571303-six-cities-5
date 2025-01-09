@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import OfferList from '../../components/offer-list/offer-list';
-import MapComponent from '../../components/map/map-component';
+import MapComponent from '../../components/map-component/map-component';
 import CityList from '../../components/city-list/city-list';
-import { City, Offer } from '../../types/offer';
+import { City, Offer } from '../../types';
 import { CITIES } from '../../consts';
 import Header from '../../components/header/header';
 import Spinner from '../../components/spinner/spinner';
-import { fetchOffersByCity } from '../../store/actions/offers-action';
+import NoOffers from '../../components/no-offers/no-offers';
+import { fetchOffersByCity } from '../../store/actions';
 
 type MainPageProps = {
   offers: Offer[];
@@ -65,17 +66,21 @@ function MainPage({ offers }: MainPageProps) {
       {loading ? (
         <Spinner />
       ) : (
-        <main className="page__main page__main--index">
+        <main className={`page__main page__main--index ${offers.length === 0 ? 'page__main--index-empty' : ''}`}>
           <CityList cities={CITIES} activeCity={activeCity} onCityClick={handleCityClick} />
           <div className="cities">
-            <div className="cities__places-container container">
-              <OfferList offers={offers} activeCity={activeCity} onOfferHover={handleOfferHover} />
-              <div className="cities__right-section">
-                <section className="cities__map map">
-                  <MapComponent city={cityForMap} points={offerCoordinates} selectedPoint={selectedPoint} />
-                </section>
+            {offers.length === 0 ? (
+              <NoOffers city={activeCity} />
+            ) : (
+              <div className="cities__places-container container">
+                <OfferList offers={offers} activeCity={activeCity} onOfferHover={handleOfferHover} />
+                <div className="cities__right-section">
+                  <section className="cities__map map">
+                    <MapComponent city={cityForMap} points={offerCoordinates} selectedPoint={selectedPoint} />
+                  </section>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </main>
       )}

@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { fetchComments, fetchNearbyOffers, fetchOfferById, postComment } from '../../api/api';
 import { AppRoute } from '../../consts';
-import { Offer, Point } from '../../types/offer';
+import { Offer, Point } from '../../types';
 import CommentForm from '../../components/comment-form/comment-form';
 import HostInfo from '../../components/host-info/host-info';
-import MapComponent from '../../components/map/map-component';
+import MapComponent from '../../components/map-component/map-component';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Header from '../../components/header/header';
 import NearOffersList from '../../components/near-offers-list/near-offers-list';
 import Spinner from '../../components/spinner/spinner';
 import PhotoGallery from '../../components/photo-gallery/photo-gallery';
 import { RootState } from '../../store';
-import { Comment } from '../../types/comment.ts';
+import { Comment } from '../../types';
+import BookmarkButtonBig from '../../components/bookmark-button-big/bookmark-button-big.tsx';
+
+const getPluralizedText = (count: number, singular: string, plural: string): string => `${count} ${count === 1 ? singular : plural}`;
 
 const handleCommentSubmit = (comment: string, rating: number, offerId: string, setComments: React.Dispatch<React.SetStateAction<Comment[]>>) => {
   postComment(offerId, { comment, rating }).then((newComment) => {
@@ -38,24 +41,43 @@ function OfferPage() {
       setError(null);
 
       fetchOfferById(id)
-        .then((data) => setOffer(data))
-        .catch(() => setError('Could not fetch the offer details.'))
+        .then((data) => {
+          setOffer(data);
+          setPoints([
+            {
+              title: data.title,
+              lat: data.location.latitude,
+              long: data.location.longitude,
+            },
+          ]);
+        })
+        .catch(() => setError('Could not fetch the offer-page details.'))
         .finally(() => setLoading(false));
 
-      fetchComments(id)
-        .then((data) => setComments(data));
+      fetchComments(id).then((data) => setComments(data));
 
-      fetchNearbyOffers(id)
-        .then((data) => {
-          setNearbyOffers(data);
-          setPoints(data.map((offerItem) => ({
+      fetchNearbyOffers(id).then((data) => {
+        const limitedNearbyOffers = data.slice(0, 3);
+        setNearbyOffers(limitedNearbyOffers);
+
+        setPoints((prevPoints) => [
+          ...prevPoints,
+          ...limitedNearbyOffers.map((offerItem) => ({
             title: offerItem.title,
             lat: offerItem.location.latitude,
-            long: offerItem.location.longitude
-          })));
-        });
+            long: offerItem.location.longitude,
+          })),
+        ]);
+      });
     }
   }, [id]);
+
+  const bedroomsText = offer?.bedrooms
+    ? getPluralizedText(offer.bedrooms, 'Bedroom', 'Bedrooms')
+    : '';
+  const adultsText = offer?.maxAdults
+    ? getPluralizedText(offer.maxAdults, 'adult', 'adults')
+    : '';
 
   if (loading) {
     return <Spinner />;
@@ -83,12 +105,15 @@ function OfferPage() {
               )}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{offer.title}</h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <BookmarkButtonBig
+                  offerId={offer.id}
+                  isFavorite={offer.isFavorite}
+                  onToggleFavorite={(newFavoriteStatus) => {
+                    setOffer((prevOffer) =>
+                      prevOffer ? { ...prevOffer, isFavorite: newFavoriteStatus } : prevOffer
+                    );
+                  }}
+                />
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
@@ -99,8 +124,10 @@ function OfferPage() {
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">{offer.type}</li>
-                <li className="offer__feature offer__feature--bedrooms">3 Bedrooms</li>
-                <li className="offer__feature offer__feature--adults">Max {offer.maxAdults} adults</li>
+                <li className="offer__feature offer__feature--bedrooms">{bedroomsText}</li>
+                <li className="offer__feature offer__feature--adults">
+                  Max {adultsText}
+                </li>
               </ul>
               <div className="offer__price">
                 <b className="offer__price-value">€{offer.price}</b>
@@ -122,13 +149,24 @@ function OfferPage() {
               <section className="offer__reviews reviews">
                 <ReviewsList comments={comments} />
                 {authorizationStatus && (
-                  <CommentForm onSubmit={(comment, rating) => handleCommentSubmit(comment, rating, id as string, setComments)} />
+                  <CommentForm
+                    onSubmit={(comment, rating) =>
+                      handleCommentSubmit(comment, rating, id as string, setComments)}
+                  />
                 )}
               </section>
             </div>
           </div>
           <section className="offer__map map">
-            <MapComponent city={offer.city} points={points} selectedPoint={undefined} />
+            <MapComponent
+              city={offer.city}
+              points={points}
+              selectedPoint={{
+                title: offer.title,
+                lat: offer.location.latitude,
+                long: offer.location.longitude,
+              }}
+            />
           </section>
         </section>
         <div className="container">

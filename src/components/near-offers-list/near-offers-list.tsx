@@ -1,4 +1,4 @@
-import { Offer } from '../../types/offer';
+import {Offer} from '../../types';
 import NearOfferCard from '../near-offer-card/near-offer-card.tsx';
 
 type NearOffersListProps = {

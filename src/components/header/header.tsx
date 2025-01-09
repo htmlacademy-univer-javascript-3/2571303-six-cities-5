@@ -1,7 +1,8 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../store';
-import { Link } from 'react-router-dom';
-import {logout} from '../../store/actions/auth-action.ts';
+import {Link} from 'react-router-dom';
+import {logout} from '../../store/actions';
+import {AppRoute} from '../../consts.ts';
 
 
 function Header() {
@@ -50,7 +51,7 @@ function Header() {
                 <li className="header__nav-item user">
                   <Link
                     className="header__nav-link header__nav-link--profile"
-                    to="/login"
+                    to={AppRoute.Login}
                   >
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                     <span className="header__login">Sign in</span>

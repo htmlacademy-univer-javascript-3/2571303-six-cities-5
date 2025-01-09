@@ -1,5 +1,7 @@
 import FavoriteOfferCard from '../favorite-offer-card/favorite-offer-card.tsx';
-import {Offer} from '../../types/offer.ts';
+import {Offer} from '../../types';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../consts.ts';
 
 type FavoriteLocationItemProps = {
   location: string;
@@ -11,9 +13,9 @@ function FavoriteLocationItem({location, offers}: FavoriteLocationItemProps) {
     <>
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="#">
+          <Link to={AppRoute.Root} className="locations__item-link">
             <span>{location}</span>
-          </a>
+          </Link>
         </div>
       </div>
       <div className="favorites__places">
