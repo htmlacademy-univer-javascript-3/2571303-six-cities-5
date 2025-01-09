@@ -1,9 +1,9 @@
-import {useEffect, useState} from 'react';
-import {Navigate, useParams} from 'react-router-dom';
-import {useSelector} from 'react-redux';
-import {fetchComments, fetchNearbyOffers, fetchOfferById, postComment} from '../../api/api';
-import {AppRoute} from '../../consts';
-import {Offer, Point} from '../../types';
+import { useEffect, useState } from 'react';
+import { Navigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { fetchComments, fetchNearbyOffers, fetchOfferById, postComment } from '../../api/api';
+import { AppRoute } from '../../consts';
+import { Offer, Point } from '../../types';
 import CommentForm from '../../components/comment-form/comment-form';
 import HostInfo from '../../components/host-info/host-info';
 import MapComponent from '../../components/map-component/map-component';
@@ -12,8 +12,8 @@ import Header from '../../components/header/header';
 import NearOffersList from '../../components/near-offers-list/near-offers-list';
 import Spinner from '../../components/spinner/spinner';
 import PhotoGallery from '../../components/photo-gallery/photo-gallery';
-import {RootState} from '../../store';
-import {Comment} from '../../types';
+import { RootState } from '../../store';
+import { Comment } from '../../types';
 import BookmarkButtonBig from '../../components/bookmark-button-big/bookmark-button-big.tsx';
 
 const getPluralizedText = (count: number, singular: string, plural: string): string => `${count} ${count === 1 ? singular : plural}`;
@@ -45,26 +45,36 @@ function OfferPage() {
         .catch(() => setError('Could not fetch the offer-page details.'))
         .finally(() => setLoading(false));
 
-      fetchComments(id)
-        .then((data) => setComments(data));
+      fetchComments(id).then((data) => setComments(data));
 
-      fetchNearbyOffers(id)
-        .then((data) => {
-          setNearbyOffers(data);
-          setPoints(data.map((offerItem) => ({
+      fetchNearbyOffers(id).then((data) => {
+        const limitedNearbyOffers = data.slice(0, 3);
+        setNearbyOffers(limitedNearbyOffers);
+
+        setPoints([
+          ...(offer
+            ? [{
+              title: offer.title,
+              lat: offer.location.latitude,
+              long: offer.location.longitude,
+            }]
+            : []),
+          ...limitedNearbyOffers.map((offerItem) => ({
             title: offerItem.title,
             lat: offerItem.location.latitude,
-            long: offerItem.location.longitude
-          })));
-        });
+            long: offerItem.location.longitude,
+          })),
+        ]);
+      });
     }
   }, [id]);
 
   const bedroomsText = offer?.bedrooms
-    ? getPluralizedText(offer.bedrooms, 'Bedroom', 'Bedrooms') : '';
-
+    ? getPluralizedText(offer.bedrooms, 'Bedroom', 'Bedrooms')
+    : '';
   const adultsText = offer?.maxAdults
-    ? getPluralizedText(offer.maxAdults, 'adult', 'adults') : '';
+    ? getPluralizedText(offer.maxAdults, 'adult', 'adults')
+    : '';
 
   if (loading) {
     return <Spinner />;
@@ -112,7 +122,9 @@ function OfferPage() {
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">{offer.type}</li>
                 <li className="offer__feature offer__feature--bedrooms">{bedroomsText}</li>
-                <li className="offer__feature offer__feature--adults">Max {adultsText}</li>
+                <li className="offer__feature offer__feature--adults">
+                  Max {adultsText}
+                </li>
               </ul>
               <div className="offer__price">
                 <b className="offer__price-value">€{offer.price}</b>
@@ -134,13 +146,25 @@ function OfferPage() {
               <section className="offer__reviews reviews">
                 <ReviewsList comments={comments} />
                 {authorizationStatus && (
-                  <CommentForm onSubmit={(comment, rating) => handleCommentSubmit(comment, rating, id as string, setComments)} />
+                  <CommentForm
+                    onSubmit={(comment, rating) =>
+                      handleCommentSubmit(comment, rating, id as string, setComments)
+                    }
+                  />
                 )}
               </section>
             </div>
           </div>
           <section className="offer__map map">
-            <MapComponent city={offer.city} points={points} selectedPoint={undefined} />
+            <MapComponent
+              city={offer.city}
+              points={points}
+              selectedPoint={{
+                title: offer.title,
+                lat: offer.location.latitude,
+                long: offer.location.longitude,
+              }}
+            />
           </section>
         </section>
         <div className="container">
