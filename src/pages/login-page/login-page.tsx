@@ -3,14 +3,18 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Link, useNavigate} from 'react-router-dom';
 import {AppDispatch, RootState} from '../../store';
 import {login} from '../../store/actions';
+import {fetchFavoriteOffers} from '../../api/api';
+import {setFavoritesCount} from '../../store/slices';
+import {AppRoute} from '../../consts.ts';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const error = useSelector((state: RootState) => state.offers.error);
+
   const authorizationStatus = useSelector((state: RootState) => state.auth.authorizationStatus);
+  const error = useSelector((state: RootState) => state.offers.error);
 
   const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -18,10 +22,16 @@ function LoginPage() {
   };
 
   React.useEffect(() => {
+    const updateFavoritesCount = async () => {
+      const favoriteOffers = await fetchFavoriteOffers();
+      dispatch(setFavoritesCount(favoriteOffers.length));
+    };
+
     if (authorizationStatus) {
-      navigate('/');
+      updateFavoritesCount();
+      navigate(AppRoute.Root);
     }
-  }, [authorizationStatus, navigate]);
+  }, [authorizationStatus, dispatch, navigate]);
 
   return (
     <div className="page page--gray page--login">
