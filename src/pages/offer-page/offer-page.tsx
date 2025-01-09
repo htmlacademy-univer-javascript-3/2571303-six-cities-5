@@ -6,7 +6,7 @@ import {AppRoute} from '../../consts';
 import {Offer, Point} from '../../types';
 import CommentForm from '../../components/comment-form/comment-form';
 import HostInfo from '../../components/host-info/host-info';
-import MapComponent from '../../components/map/map-component';
+import MapComponent from '../../components/map-component/map-component';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Header from '../../components/header/header';
 import NearOffersList from '../../components/near-offers-list/near-offers-list';

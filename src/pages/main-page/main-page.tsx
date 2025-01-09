@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../store';
 import OfferList from '../../components/offer-list/offer-list';
-import MapComponent from '../../components/map/map-component';
+import MapComponent from '../../components/map-component/map-component';
 import CityList from '../../components/city-list/city-list';
 import {City, Offer} from '../../types';
 import {CITIES} from '../../consts';
