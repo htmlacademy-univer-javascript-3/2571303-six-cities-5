@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 type CityListProps = {
   cities: string[];
   activeCity: string;
@@ -11,16 +13,16 @@ function CityList({ cities, activeCity, onCityClick }: CityListProps): JSX.Eleme
         <ul className="locations__list tabs__list">
           {cities.map((city) => (
             <li className="locations__item" key={city}>
-              <a
+              <Link
                 className={`locations__item-link tabs__item ${city === activeCity ? 'tabs__item--active' : ''}`}
-                href="#"
+                to="#"
                 onClick={(event) => {
                   event.preventDefault();
                   onCityClick(city);
                 }}
               >
                 <span>{city}</span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
