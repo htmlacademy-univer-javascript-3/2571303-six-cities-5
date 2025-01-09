@@ -41,7 +41,16 @@ function OfferPage() {
       setError(null);
 
       fetchOfferById(id)
-        .then((data) => setOffer(data))
+        .then((data) => {
+          setOffer(data);
+          setPoints([
+            {
+              title: data.title,
+              lat: data.location.latitude,
+              long: data.location.longitude,
+            },
+          ]);
+        })
         .catch(() => setError('Could not fetch the offer-page details.'))
         .finally(() => setLoading(false));
 
@@ -51,14 +60,8 @@ function OfferPage() {
         const limitedNearbyOffers = data.slice(0, 3);
         setNearbyOffers(limitedNearbyOffers);
 
-        setPoints([
-          ...(offer
-            ? [{
-              title: offer.title,
-              lat: offer.location.latitude,
-              long: offer.location.longitude,
-            }]
-            : []),
+        setPoints((prevPoints) => [
+          ...prevPoints,
           ...limitedNearbyOffers.map((offerItem) => ({
             title: offerItem.title,
             lat: offerItem.location.latitude,
@@ -148,8 +151,7 @@ function OfferPage() {
                 {authorizationStatus && (
                   <CommentForm
                     onSubmit={(comment, rating) =>
-                      handleCommentSubmit(comment, rating, id as string, setComments)
-                    }
+                      handleCommentSubmit(comment, rating, id as string, setComments)}
                   />
                 )}
               </section>
