@@ -1,8 +1,10 @@
 import React from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {changeFavoriteStatus, fetchFavoriteOffers} from '../../api/api';
 import {setFavoritesCount} from '../../store/slices';
-import {AppDispatch} from '../../store';
+import {AppDispatch, RootState} from '../../store';
+import {AppRoute} from '../../consts.ts';
+import {useNavigate} from 'react-router-dom';
 
 type BookmarkButtonProps = {
   offerId: string;
@@ -13,9 +15,14 @@ type BookmarkButtonProps = {
 function BookmarkButton({ offerId, isFavorite, onToggleFavorite }: BookmarkButtonProps) {
   const [favorite, setFavorite] = React.useState(isFavorite);
   const dispatch = useDispatch<AppDispatch>();
-
+  const authorizationStatus = useSelector((state: RootState) => state.auth.authorizationStatus);
+  const navigate = useNavigate();
 
   const handleBookmarkClick = () => {
+    if (!authorizationStatus) {
+      navigate(AppRoute.Login);
+      return;
+    }
     void (async () => {
       const newStatus = favorite ? 0 : 1;
 
