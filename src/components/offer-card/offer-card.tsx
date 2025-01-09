@@ -1,10 +1,6 @@
-import {useState} from 'react';
 import {Link} from 'react-router-dom';
-import {changeFavoriteStatus, fetchFavoriteOffers} from '../../api/api';
 import {Offer} from '../../types';
-import {useDispatch} from 'react-redux';
-import {setFavoritesCount} from '../../store/slices';
-import {AppDispatch} from '../../store';
+import BookmarkButton from '../bookmark-button/bookmark-button.tsx';
 
 type OfferCardProps = {
   offer: Offer;
@@ -13,22 +9,8 @@ type OfferCardProps = {
 
 function OfferCard({ offer, onHover }: OfferCardProps) {
   const { id, previewImage, price, title, type, rating, isPremium, isFavorite } = offer;
-  const [favorite, setFavorite] = useState(isFavorite);
-  const dispatch = useDispatch<AppDispatch>();
   const handleMouseEnter = () => onHover(id);
   const handleMouseLeave = () => onHover(null);
-  const handleBookmarkClick = () => {
-    void (async () => {
-      const newStatus = favorite ? 0 : 1;
-      await changeFavoriteStatus(id, newStatus);
-
-      const offers = await fetchFavoriteOffers();
-      dispatch(setFavoritesCount(offers.length));
-
-      setFavorite(!favorite);
-    })();
-  };
-
   return (
     <article
       className="cities__card place-card"
@@ -57,20 +39,10 @@ function OfferCard({ offer, onHover }: OfferCardProps) {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button
-            className={`place-card__bookmark-button button ${
-              favorite ? 'place-card__bookmark-button--active' : ''
-            }`}
-            type="button"
-            onClick={handleBookmarkClick}
-          >
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">
-              {favorite ? 'In bookmarks' : 'To bookmarks'}
-            </span>
-          </button>
+          <BookmarkButton
+            offerId={id}
+            isFavorite={isFavorite}
+          />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

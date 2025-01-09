@@ -30,6 +30,7 @@ export type Offer = {
     longitude: number;
   };
   images?: string[];
+  bedrooms?: number;
 };
 
 export type Point = {

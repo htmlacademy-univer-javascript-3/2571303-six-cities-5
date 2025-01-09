@@ -15,6 +15,8 @@ import PhotoGallery from '../../components/photo-gallery/photo-gallery';
 import {RootState} from '../../store';
 import {Comment} from '../../types';
 
+const getPluralizedText = (count: number, singular: string, plural: string): string => `${count} ${count === 1 ? singular : plural}`;
+
 const handleCommentSubmit = (comment: string, rating: number, offerId: string, setComments: React.Dispatch<React.SetStateAction<Comment[]>>) => {
   postComment(offerId, { comment, rating }).then((newComment) => {
     setComments((prevComments) => [...prevComments, newComment]);
@@ -56,6 +58,12 @@ function OfferPage() {
         });
     }
   }, [id]);
+
+  const bedroomsText = offer?.bedrooms
+    ? getPluralizedText(offer.bedrooms, 'Bedroom', 'Bedrooms') : '';
+
+  const adultsText = offer?.maxAdults
+    ? getPluralizedText(offer.maxAdults, 'adult', 'adults') : '';
 
   if (loading) {
     return <Spinner />;
@@ -99,8 +107,8 @@ function OfferPage() {
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">{offer.type}</li>
-                <li className="offer__feature offer__feature--bedrooms">3 Bedrooms</li>
-                <li className="offer__feature offer__feature--adults">Max {offer.maxAdults} adults</li>
+                <li className="offer__feature offer__feature--bedrooms">{bedroomsText}</li>
+                <li className="offer__feature offer__feature--adults">Max {adultsText}</li>
               </ul>
               <div className="offer__price">
                 <b className="offer__price-value">€{offer.price}</b>
